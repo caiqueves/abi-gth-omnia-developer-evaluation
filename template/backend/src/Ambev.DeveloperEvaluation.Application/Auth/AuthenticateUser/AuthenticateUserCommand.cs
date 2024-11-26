@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using MediatR;
 

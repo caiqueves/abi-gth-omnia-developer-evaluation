@@ -1,3 +1,5 @@
+using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
+using Ambev.DeveloperEvaluation.Common.Validation;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser;
@@ -19,4 +21,15 @@ public class AuthenticateUserCommand : IRequest<AuthenticateUserResult>
     /// Will be verified against the stored hashed password.
     /// </summary>
     public string Password { get; set; } = string.Empty;
+
+    public ValidationResultDetail Validate()
+    {
+        var validator = new AuthenticateUserValidator();
+        var result = validator.Validate(this);
+        return new ValidationResultDetail
+        {
+            IsValid = result.IsValid,
+            Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
+        };
+    }
 }

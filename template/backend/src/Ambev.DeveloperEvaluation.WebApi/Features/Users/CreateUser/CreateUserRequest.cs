@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Enums;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
 
@@ -16,6 +17,31 @@ public class CreateUserRequest
     /// Gets or sets the password. Must meet security requirements.
     /// </summary>
     public string Password { get; set; } = string.Empty;
+
+    public string FirstName { get; set; } = string.Empty;
+
+    public string LastName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// 
+    public string City { get; set; } = string.Empty;
+
+
+    public string Street { get; set; } = string.Empty;
+
+
+    public int Number { get; set; }
+
+
+    public string ZipCode { get; set; } = string.Empty;
+
+
+    public string Latitude { get; set; } = string.Empty;
+
+
+    public string Longitude { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the phone number in format (XX) XXXXX-XXXX.

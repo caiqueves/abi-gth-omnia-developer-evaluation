@@ -38,10 +38,23 @@ public class User : BaseEntity, IUser
     /// </summary>
     public string Password { get; set; } = string.Empty;
 
+    public string FirstName { get; set; } = string.Empty;
+
+    public string LastName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Return Address for user
+    /// </summary>
+    public Guid AddressId { get; set; }
+
+
+    public virtual Address Address { get; set; }
+
     /// <summary>
     /// Gets the user's role in the system.
     /// Determines the user's permissions and access levels.
     /// </summary>
+    /// 
     public UserRole Role { get;     set; }
 
     /// <summary>

@@ -1,4 +1,6 @@
-﻿namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+
+namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 
 /// <summary>
 /// Represents the response returned after successfully creating a new user.
@@ -16,14 +18,19 @@ public class CreateUserResult
     public Guid Id { get; set; }
 
     /// <summary>
-    /// The user's name
-    /// </summary>
-    public string Name { get; set; } = string.Empty;
-
-    /// <summary>
     /// The user's email address
     /// </summary>
     public string Email { get; set; } = string.Empty;
+
+    public string Username { get; set; } = string.Empty;
+
+    public string Password { get; set; } = string.Empty;
+
+    public string FirstName { get; set; } = string.Empty;
+
+    public string LastName { get; set; } = string.Empty;
+
+    public Address? Address { get; set; }
 
     /// <summary>
     /// The user's phone number
@@ -31,14 +38,16 @@ public class CreateUserResult
     public string Phone { get; set; } = string.Empty;
 
     /// <summary>
+    /// The current status of the user
+    /// </summary>
+    public string Status { get; set; } = string.Empty;
+
+    /// <summary>
     /// The user's role in the system
     /// </summary>
     public string Role { get; set; } = string.Empty;
 
-    /// <summary>
-    /// The current status of the user
-    /// </summary>
-    public string Status { get; set; } = string.Empty;
+
 
 
 }

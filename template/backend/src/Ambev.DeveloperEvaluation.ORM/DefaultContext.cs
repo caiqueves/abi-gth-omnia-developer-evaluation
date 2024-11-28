@@ -10,6 +10,10 @@ public class DefaultContext : DbContext
 {
     public DbSet<User> Users { get; set; }
 
+    public DbSet<Address> Addresss { get; set; }
+
+    public DbSet<Geolocation> Geolocation { get; set; }
+
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
     {
     }

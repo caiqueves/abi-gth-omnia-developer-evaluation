@@ -29,7 +29,7 @@ public class UserRepository : IUserRepository
     public async Task<User> CreateAsync(User user, CancellationToken cancellationToken = default)
     {
         await _context.Users.AddAsync(user, cancellationToken);
-        await _context.SaveChangesAsync(cancellationToken);
+        //await _context.SaveChangesAsync(cancellationToken);
         return user;
     }
 
@@ -69,7 +69,7 @@ public class UserRepository : IUserRepository
             return false;
 
         _context.Users.Remove(user);
-        await _context.SaveChangesAsync(cancellationToken);
+        //await _context.SaveChangesAsync(cancellationToken);
         return true;
     }
 
@@ -100,7 +100,7 @@ public class UserRepository : IUserRepository
 
         try
         {
-            await _context.SaveChangesAsync(cancellationToken);
+            //await _context.SaveChangesAsync(cancellationToken);
             return existingUser; 
         }
         catch (Exception)

@@ -16,7 +16,10 @@ public class UserValidator : AbstractValidator<User>
             .MaximumLength(50).WithMessage("Username cannot be longer than 50 characters.");
         
         RuleFor(user => user.Password).SetValidator(new PasswordValidator());
-        
+
+        RuleFor(user => user.Address).NotEmpty()
+            .WithMessage("Address mandatory");
+
         RuleFor(user => user.Phone)
             .Matches(@"^\+[1-9]\d{10,14}$")
             .WithMessage("Phone number must start with '+' followed by 11-15 digits.");

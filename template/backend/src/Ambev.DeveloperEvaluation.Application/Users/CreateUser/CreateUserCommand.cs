@@ -30,6 +30,27 @@ public class CreateUserCommand : IRequest<CreateUserResult>
     /// </summary>
     public string Password { get; set; } = string.Empty;
 
+    public string FirstName { get; set; } = string.Empty;
+
+    public string LastName { get; set; } = string.Empty;
+
+    public string City { get; set; } = string.Empty;
+
+
+    public string Street { get; set; } = string.Empty;
+
+
+    public int Number { get; set; }
+
+
+    public string ZipCode { get; set; } = string.Empty;
+
+
+    public string Latitude { get; set; } = string.Empty;
+
+
+    public string Longitude { get; set; } = string.Empty;
+
     /// <summary>
     /// Gets or sets the phone number for the user.
     /// </summary>

@@ -1,7 +1,7 @@
 using AutoMapper;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 
-namespace Ambev.DeveloperEvaluation.Application.Users.GetUser;
+namespace Ambev.DeveloperEvaluation.Application.Users.ListUser;
 
 /// <summary>
 /// Profile for mapping between User entity and GetUserResponse
@@ -13,6 +13,6 @@ public class ListUserProfile : Profile
     /// </summary>
     public ListUserProfile()
     {
-        ////CreateMap<User, ListUserResult>();
+
     }
 }

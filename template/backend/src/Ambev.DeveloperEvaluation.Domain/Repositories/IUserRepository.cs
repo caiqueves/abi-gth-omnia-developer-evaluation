@@ -1,4 +1,5 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 
@@ -38,4 +39,14 @@ public interface IUserRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>True if the user was deleted, false if not found</returns>
     Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Return list de User
+    /// </summary>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    IQueryable<User> GetAllAsync(CancellationToken cancellationToken = default);
+
+
+    Task<User> UpdateAsync(User user, CancellationToken cancellationToken = default);
 }

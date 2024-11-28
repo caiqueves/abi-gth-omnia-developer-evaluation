@@ -72,4 +72,41 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync(cancellationToken);
         return true;
     }
+
+    public IQueryable<User> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return _context.Users.Where(c => c.Id != null);
+        
+        
+    }
+
+    public async Task<User> UpdateAsync(User user, CancellationToken cancellationToken = default)
+    {
+        var existingUser = await _context.Users.FindAsync(new object[] { user.Id }, cancellationToken);
+
+        if (existingUser == null)
+        {
+            return new User { }; 
+        }
+
+        existingUser.Username = user.Username;
+        existingUser.Password = user.Password;
+        existingUser.Phone = user.Phone;
+        existingUser.Email = user.Email;
+        existingUser.Status = user.Status;
+        existingUser.Role = user.Role;
+
+        _context.Users.Update(existingUser);
+
+        try
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+            return existingUser; 
+        }
+        catch (Exception)
+        {
+            
+            return new User { }; 
+        }
+    }
 }

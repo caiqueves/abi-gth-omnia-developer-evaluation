@@ -1,4 +1,4 @@
-﻿namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser;
+﻿namespace Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
 
 /// <summary>
 /// Represents the response returned after successfully creating a new user.
@@ -7,7 +7,7 @@
 /// This response contains the unique identifier of the newly created user,
 /// which can be used for subsequent operations or reference.
 /// </remarks>
-public class CreateUserResult
+public class UpdateUserResult
 {
     /// <summary>
     /// Gets or sets the unique identifier of the newly created user.

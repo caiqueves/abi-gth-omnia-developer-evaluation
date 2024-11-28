@@ -23,9 +23,8 @@ services:
     image: postgres:13
 
     environment:
-      POSTGRES_DB: developer_evaluation
-      POSTGRES_USER: developer
-      POSTGRES_PASSWORD: ev@luAt10n
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=e123456
     ports:
       - "5432"
     restart: unless-stopped
@@ -48,3 +47,28 @@ services:
        MONGO_INITDB_ROOT_PASSWORD: ev@luAt10n
     ports:
        - "6379"
+     
+  ambev.developerevaluation.rabbitmq:
+    image: rabbitmq:3-management   # Usando a imagem oficial do RabbitMQ com o plugin de gerenciamento
+    container_name: ambev_developer_evaluation_rabbitmq       # Nome do container
+    ports:
+      - "5672:5672"               # Porta para comunicação com os clientes (protocolo AMQP)
+      - "15672:15672"             # Porta para a interface de gerenciamento (web UI)
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq   # Volume para persistir os dados do RabbitMQ
+    environment:
+      RABBITMQ_DEFAULT_USER: guest   # Usuário padrão
+      RABBITMQ_DEFAULT_PASS: guest   # Senha padrão
+      RABBITMQ_ERLANG_COOKIE: "mysecretcookie"   # Erro de configuração, opcional para clusters
+    networks:
+      - rabbitmq-net
+      
+networks:
+  rabbitmq-net:
+    driver: bridge   # Configuração da rede fora do serviço
+
+volumes:
+  rabbitmq-data:
+    driver: local  # Volume persistente
+
+    

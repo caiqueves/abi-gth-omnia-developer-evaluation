@@ -5,6 +5,8 @@ using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
+using Ambev.DeveloperEvaluation.Domain.Services;
+using Newtonsoft.Json;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
 
@@ -19,6 +21,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
     private readonly IAdressRepository _adressRepository;
     private readonly IGeolocationRepository _geolocationRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IRedisService _redisService;
 
     /// <summary>
     /// Initializes a new instance of CreateUserHandler
@@ -27,7 +30,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for CreateUserCommand</param>
     public UpdateUserHandler(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, IAdressRepository adressRepository, IGeolocationRepository geolocationRepository,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork, IRedisService redisService)
     {
         _userRepository = userRepository;
         _mapper = mapper;
@@ -35,6 +38,7 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
         _adressRepository = adressRepository;
         _geolocationRepository = geolocationRepository;
         _unitOfWork = unitOfWork;
+        _redisService = redisService;
     }
 
     /// <summary>
@@ -100,6 +104,8 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
 
             // Commit da transação
             await transaction.CommitAsync(cancellationToken);
+
+            _redisService.SetCache($"user:{user.Id}", JsonConvert.SerializeObject(createdUser));
 
             var result = _mapper.Map<UpdateUserResult>(createdUser);
             return result;

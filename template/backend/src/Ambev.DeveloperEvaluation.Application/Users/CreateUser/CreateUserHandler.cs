@@ -9,6 +9,7 @@ using System.Text.Json.Serialization;
 using System.Net.Http.Json;
 using System;
 using Newtonsoft.Json;
+using Ambev.DeveloperEvaluation.Domain.Services;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 
@@ -23,6 +24,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
     private readonly IAdressRepository _adressRepository;
     private readonly IGeolocationRepository _geolocationRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IRedisService _redisService;
     private readonly EventService _eventService;
 
     /// <summary>
@@ -32,7 +34,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for CreateUserCommand</param>
     public CreateUserHandler(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, IAdressRepository adressRepository, IGeolocationRepository geolocationRepository,
-        IUnitOfWork unitOfWork, EventService eventService)
+        IUnitOfWork unitOfWork, EventService eventService, IRedisService redisService)
     {
         _userRepository = userRepository;
         _mapper = mapper;
@@ -41,6 +43,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
         _geolocationRepository = geolocationRepository;
         _unitOfWork = unitOfWork;
         _eventService = eventService;
+        _redisService = redisService;
     }
 
     /// <summary>
@@ -103,7 +106,11 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
             // Commit da transação
             await transaction.CommitAsync(cancellationToken);
 
-            _eventService.PublishEvent($"User create with date {JsonConvert.SerializeObject(createdUser)}");
+            var createdUserJson = JsonConvert.SerializeObject(createdUser);
+
+            _redisService.SetCache($"user:{user.Id}", createdUserJson);
+
+            _eventService.PublishEvent($"User create with date {createdUserJson}");
 
             var users = await _userRepository.GetByIdAsync(user.Id);
             var result = _mapper.Map<CreateUserResult>(users);

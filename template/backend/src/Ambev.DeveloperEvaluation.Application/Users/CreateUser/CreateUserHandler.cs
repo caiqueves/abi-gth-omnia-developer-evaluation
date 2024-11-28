@@ -4,6 +4,11 @@ using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Common.Security;
+using Ambev.DeveloperEvaluation.Application.Event;
+using System.Text.Json.Serialization;
+using System.Net.Http.Json;
+using System;
+using Newtonsoft.Json;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 
@@ -18,6 +23,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
     private readonly IAdressRepository _adressRepository;
     private readonly IGeolocationRepository _geolocationRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly EventService _eventService;
 
     /// <summary>
     /// Initializes a new instance of CreateUserHandler
@@ -26,7 +32,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for CreateUserCommand</param>
     public CreateUserHandler(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, IAdressRepository adressRepository, IGeolocationRepository geolocationRepository,
-        IUnitOfWork unitOfWork)
+        IUnitOfWork unitOfWork, EventService eventService)
     {
         _userRepository = userRepository;
         _mapper = mapper;
@@ -34,6 +40,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
         _adressRepository = adressRepository;
         _geolocationRepository = geolocationRepository;
         _unitOfWork = unitOfWork;
+        _eventService = eventService;
     }
 
     /// <summary>
@@ -95,6 +102,8 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
 
             // Commit da transação
             await transaction.CommitAsync(cancellationToken);
+
+            _eventService.PublishEvent($"User create with date {JsonConvert.SerializeObject(createdUser)}");
 
             var users = await _userRepository.GetByIdAsync(user.Id);
             var result = _mapper.Map<CreateUserResult>(users);

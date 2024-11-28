@@ -8,6 +8,7 @@ using Ambev.DeveloperEvaluation.ORM;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Serilog;
 
 namespace Ambev.DeveloperEvaluation.WebApi;
@@ -33,9 +34,13 @@ public class Program
                 options.UseNpgsql(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM")
-                )
+                ).ConfigureWarnings(warnings => warnings.Ignore(CoreEventId.ContextInitialized))
             );
 
+            builder.Services.AddLogging(builder =>
+            {
+                builder.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Information);
+            });
             builder.Services.AddJwtAuthentication(builder.Configuration);
 
             builder.RegisterDependencies();

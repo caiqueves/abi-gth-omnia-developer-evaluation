@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Application.Event;
 using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Domain.Entities;
@@ -21,6 +22,7 @@ public class CreateUserHandlerTests
     private readonly IAdressRepository _adressRepository;
     private readonly IGeolocationRepository _geolocationRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly EventService _eventService;
     private readonly CreateUserHandler _handler;
 
     /// <summary>
@@ -35,7 +37,9 @@ public class CreateUserHandlerTests
         _adressRepository = Substitute.For<IAdressRepository>();
         _geolocationRepository = Substitute.For<IGeolocationRepository>();
         _unitOfWork = Substitute.For<IUnitOfWork>();
-        _handler = new CreateUserHandler(_userRepository, _mapper, _passwordHasher, _adressRepository, _geolocationRepository,_unitOfWork);
+        _eventService = Substitute.For<EventService>();
+
+        _handler = new CreateUserHandler(_userRepository, _mapper, _passwordHasher, _adressRepository, _geolocationRepository,_unitOfWork,_eventService);
     }
 
     /// <summary>

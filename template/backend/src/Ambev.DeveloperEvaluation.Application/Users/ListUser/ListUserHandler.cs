@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Drawing;
 using System.Linq.Dynamic;
 using System.Linq.Dynamic.Core;
+using Ambev.DeveloperEvaluation.Application.Event;
+using Newtonsoft.Json;
 
 namespace Ambev.DeveloperEvaluation.Application.Users.ListUser;
 
@@ -18,7 +20,7 @@ public class ListUserHandler : IRequestHandler<ListUserCommand, PaginatedList<Us
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
-
+    private readonly EventService _eventService;
     /// <summary>
     /// Initializes a new instance of GetUserHandler
     /// </summary>
@@ -27,10 +29,12 @@ public class ListUserHandler : IRequestHandler<ListUserCommand, PaginatedList<Us
     /// <param name="validator">The validator for GetUserCommand</param>
     public ListUserHandler(
         IUserRepository userRepository,
-        IMapper mapper)
+        IMapper mapper,
+        EventService eventService)
     {
         _userRepository = userRepository;
         _mapper = mapper;
+        _eventService = eventService;
     }
 
     /// <summary>
@@ -48,7 +52,7 @@ public class ListUserHandler : IRequestHandler<ListUserCommand, PaginatedList<Us
             throw new ValidationException(validationResult.Errors);
 
         var query = _userRepository.GetAllAsync(cancellationToken)
-            .OrderBy(request.Order);
+        .OrderBy(request.Order);
 
         return PaginatedList<User>.CreateAsync(query, request.Page, request.Size).Result; ;
     }

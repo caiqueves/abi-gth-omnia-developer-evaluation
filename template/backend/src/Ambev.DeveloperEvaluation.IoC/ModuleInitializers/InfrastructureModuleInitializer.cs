@@ -1,4 +1,7 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Repositories;
+﻿using Ambev.DeveloperEvaluation.Application.Event;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Services;
+using Ambev.DeveloperEvaluation.Infrastructure.RabbitMQ;
 using Ambev.DeveloperEvaluation.ORM;
 using Ambev.DeveloperEvaluation.ORM.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -17,5 +20,9 @@ public class InfrastructureModuleInitializer : IModuleInitializer
         builder.Services.AddScoped<IAdressRepository, AdressRepository>(); 
         builder.Services.AddScoped<IGeolocationRepository, GeolocationRepository>();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        builder.Services.AddScoped<IEventPublisher, RabbitMqEventPublisher>();
+
+        // Registrando o EventService
+        builder.Services.AddScoped<EventService>();
     }
 }

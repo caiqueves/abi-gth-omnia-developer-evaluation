@@ -21,5 +21,31 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             //await _context.SaveChangesAsync(cancellationToken);
             return geolocation;
         }
+
+        public async Task<Geolocation> UpdateAsync(Geolocation geolocation, CancellationToken cancellationToken = default)
+        {
+            var existingGeolocation = await _context.Geolocation.FindAsync(new object[] { geolocation.Id }, cancellationToken);
+
+            if (existingGeolocation == null)
+            {
+                return new Geolocation { };
+            }
+
+            existingGeolocation.Lat = geolocation.Lat;
+            existingGeolocation.Long = geolocation.Long;
+
+            _context.Geolocation.Update(existingGeolocation);
+
+            try
+            {
+                //await _context.SaveChangesAsync(cancellationToken);
+                return existingGeolocation;
+            }
+            catch (Exception)
+            {
+
+                return new Geolocation { };
+            }
+        }
     }
 }

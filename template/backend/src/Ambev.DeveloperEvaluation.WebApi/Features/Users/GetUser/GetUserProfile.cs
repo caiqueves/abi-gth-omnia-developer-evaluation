@@ -29,6 +29,8 @@ public class GetUserProfile : Profile
         CreateMap<GetUserResult, GetUserResponse>()
           .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()))
          .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
+        ////.ForMember(dest => dest.Name.FirstName, opt => opt.MapFrom(src => src.FirstName))
+        ////.ForMember(dest => dest.Name.LastName, opt => opt.MapFrom(src => src.LastName));
 
     }
 }

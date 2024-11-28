@@ -41,7 +41,9 @@ public class UserRepository : IUserRepository
     /// <returns>The user if found, null otherwise</returns>
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Users.FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
+        return await _context.Users.Where(o => o.Id == id)
+            .Include(ads => ads.Address)
+            .Include(ads => ads.Address.Geolocation).FirstOrDefaultAsync(cancellationToken);
     }
 
     /// <summary>
@@ -52,8 +54,9 @@ public class UserRepository : IUserRepository
     /// <returns>The user if found, null otherwise</returns>
     public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        return await _context.Users
-            .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+        return await _context.Users.Where(u => u.Email == email)
+            .Include(ads => ads.Address)
+            .Include(ads => ads.Address.Geolocation).FirstOrDefaultAsync(cancellationToken);
     }
 
     /// <summary>
@@ -75,9 +78,9 @@ public class UserRepository : IUserRepository
 
     public IQueryable<User> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return _context.Users.Where(c => c.Id != null);
-        
-        
+        return _context.Users.Where(c => c.Id != null)
+            .Include(ads => ads.Address)
+            .Include(ads => ads.Address.Geolocation);
     }
 
     public async Task<User> UpdateAsync(User user, CancellationToken cancellationToken = default)

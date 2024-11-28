@@ -6,13 +6,13 @@ namespace Ambev.DeveloperEvaluation.Application.Users.GetUser;
 /// <summary>
 /// Profile for mapping between User entity and GetUserResponse
 /// </summary>
-public class ListUserProfile : Profile
+public class GetUserProfile : Profile
 {
     /// <summary>
     /// Initializes the mappings for GetUser operation
     /// </summary>
-    public ListUserProfile()
+    public GetUserProfile()
     {
-        ////CreateMap<User, ListUserResult>();
+        CreateMap<User, GetUserResult>();
     }
 }

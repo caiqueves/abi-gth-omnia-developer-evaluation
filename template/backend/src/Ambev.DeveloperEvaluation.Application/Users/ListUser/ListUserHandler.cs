@@ -47,9 +47,9 @@ public class ListUserHandler : IRequestHandler<ListUserCommand, PaginatedList<Us
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var query = _userRepository.GetAllAsync(cancellationToken).OrderBy(request.Order);
+        var query = _userRepository.GetAllAsync(cancellationToken)
+            .OrderBy(request.Order);
 
-        var teste = PaginatedList<User>.CreateAsync(query, request.Page, request.Size);
-        return teste.Result;
+        return PaginatedList<User>.CreateAsync(query, request.Page, request.Size).Result; ;
     }
 }

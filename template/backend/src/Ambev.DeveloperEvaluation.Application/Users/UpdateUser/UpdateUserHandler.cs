@@ -16,6 +16,9 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
     private readonly IPasswordHasher _passwordHasher;
+    private readonly IAdressRepository _adressRepository;
+    private readonly IGeolocationRepository _geolocationRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     /// <summary>
     /// Initializes a new instance of CreateUserHandler
@@ -23,11 +26,15 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
     /// <param name="userRepository">The user repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for CreateUserCommand</param>
-    public UpdateUserHandler(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher)
+    public UpdateUserHandler(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, IAdressRepository adressRepository, IGeolocationRepository geolocationRepository,
+        IUnitOfWork unitOfWork)
     {
         _userRepository = userRepository;
         _mapper = mapper;
         _passwordHasher = passwordHasher;
+        _adressRepository = adressRepository;
+        _geolocationRepository = geolocationRepository;
+        _unitOfWork = unitOfWork;
     }
 
     /// <summary>
@@ -48,11 +55,62 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
         if (existingUser != null)
             throw new ApplicationException($"User with email {command.Email} already exists");
 
-        var user = _mapper.Map<User>(command);
-        user.Password = _passwordHasher.HashPassword(command.Password);
+        using var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
-        var createdUser = await _userRepository.UpdateAsync(user, cancellationToken);
-        var result = _mapper.Map<UpdateUserResult>(createdUser);
-        return result;
+        try
+        {
+            // Criação da Geolocalização
+            var geolocation = new Geolocation
+            {
+                Lat = command.Latitude,
+                Long = command.Longitude
+            };
+
+            await _geolocationRepository.UpdateAsync(geolocation);
+
+            // Criação do Endereço
+            var address = new Address
+            {
+                City = command.City,
+                Street = command.Street,
+                Number = command.Number,
+                Zipcode = command.ZipCode,
+                GeolocationId = geolocation.Id
+            };
+
+            await _adressRepository.UpdateAsync(address);
+
+            var user = _mapper.Map<User>(command);
+
+            switch ((int)user.Status)
+            {
+                case 0:
+                    user.Deactivate(); break;
+                case 1:
+                    user.Activate(); break;
+                case 2:
+                    user.Suspend(); break;
+            }
+            user.Password = _passwordHasher.HashPassword(command.Password);
+
+            var createdUser = await _userRepository.UpdateAsync(user, cancellationToken);
+
+            // Salvar todas as alterações no banco de dados
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            // Commit da transação
+            await transaction.CommitAsync(cancellationToken);
+
+            var result = _mapper.Map<UpdateUserResult>(createdUser);
+            return result;
+        }
+        catch (Exception)
+        {
+            // Rollback da transação
+            await transaction.RollbackAsync(cancellationToken);
+            throw;
+        }
+
+        
     }
 }

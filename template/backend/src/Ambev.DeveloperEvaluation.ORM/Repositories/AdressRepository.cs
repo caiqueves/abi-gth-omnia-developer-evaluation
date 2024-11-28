@@ -30,5 +30,32 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             return address;
         }
 
+        public async Task<Address> UpdateAsync(Address address, CancellationToken cancellationToken = default)
+        {
+            var existingAddress = await _context.Addresss.FindAsync(new object[] { address.Id }, cancellationToken);
+
+            if (existingAddress == null)
+            {
+                return new Address { };
+            }
+
+            existingAddress.City = address.City;
+            existingAddress.Street = address.Street;
+            existingAddress.Number = address.Number;
+            existingAddress.Zipcode = address.Zipcode;
+
+            _context.Addresss.Update(existingAddress);
+
+            try
+            {
+                //await _context.SaveChangesAsync(cancellationToken);
+                return existingAddress;
+            }
+            catch (Exception)
+            {
+
+                return new Address { };
+            }
+        }
     }
 }

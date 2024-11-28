@@ -17,8 +17,8 @@ public class UserValidator : AbstractValidator<User>
         
         RuleFor(user => user.Password).SetValidator(new PasswordValidator());
 
-        RuleFor(user => user.Address).NotEmpty()
-            .WithMessage("Address mandatory");
+        RuleFor(user => user.AddressId).NotEmpty()
+            .WithMessage("Address Id mandatory");
 
         RuleFor(user => user.Phone)
             .Matches(@"^\+[1-9]\d{10,14}$")

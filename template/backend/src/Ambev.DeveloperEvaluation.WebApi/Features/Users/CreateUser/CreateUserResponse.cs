@@ -17,7 +17,9 @@ public class CreateUserResponse
     /// The user's full name
     /// </summary>
     //public Name Name { get; set; }
+    public string FirstName { get; set; } = string.Empty;
 
+    public string LastName { get; set; } = string.Empty;
     /// <summary>
     /// The user's email address
     /// </summary>
@@ -25,9 +27,7 @@ public class CreateUserResponse
 
     public string Username { get; set; } = string.Empty;
 
-    public Name? Name { get; set; }
-
-    public string LastName { get; set; } = string.Empty;
+    ////public Name? Name { get; set; }
 
     public Address? Address { get; set; }
 
@@ -47,9 +47,9 @@ public class CreateUserResponse
     public string Status { get; set; } = string.Empty;
 }
 
-public class Name
-{
-    public string FirstName { get; set; } = string.Empty;
+////public class Name
+////{
+////    public string FirstName { get; set; } = string.Empty;
 
-    public string LastName { get; set; } = string.Empty;
-}
+////    public string LastName { get; set; } = string.Empty;
+////}

@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUser;
@@ -7,20 +8,28 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUser;
 /// </summary>
 public class GetUserResponse
 {
-    /// <summary>
-    /// The unique identifier of the user
+    // <summary>
+    /// Gets or sets the unique identifier of the newly created user.
     /// </summary>
+    /// <value>A GUID that uniquely identifies the created user in the system.</value>
     public Guid Id { get; set; }
-
-    /// <summary>
-    /// The user's full name
-    /// </summary>
-    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// The user's email address
     /// </summary>
     public string Email { get; set; } = string.Empty;
+
+    public string UserName { get; set; } = string.Empty;
+
+    public string PassWord { get; set; } = string.Empty;
+
+    ////public Name? Name { get; set; }
+
+    public string FirstName { get; set; } = string.Empty;
+
+    public string LastName { get; set; } = string.Empty;
+
+    public Address? Address { get; set; }
 
     /// <summary>
     /// The user's phone number
@@ -28,12 +37,19 @@ public class GetUserResponse
     public string Phone { get; set; } = string.Empty;
 
     /// <summary>
-    /// The user's role in the system
-    /// </summary>
-    public string Role { get; set; } = string.Empty;
-
-    /// <summary>
     /// The current status of the user
     /// </summary>
     public string Status { get; set; } = string.Empty;
+
+    /// <summary>
+    /// The user's role in the system
+    /// </summary>
+    public string Role { get; set; } = string.Empty;
 }
+
+////public class Name
+////{
+////    public string FirstName { get; set; } = string.Empty;
+
+////    public string LastName { get; set; } = string.Empty;
+////}

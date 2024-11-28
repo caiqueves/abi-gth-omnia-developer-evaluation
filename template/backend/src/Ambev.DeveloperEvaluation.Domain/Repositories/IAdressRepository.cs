@@ -10,5 +10,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
     public interface IAdressRepository
     {
         Task<Address> CreateAsync(Address address, CancellationToken cancellationToken = default);
+
+        Task<Address> UpdateAsync(Address address, CancellationToken cancellationToken = default);
     }
 }

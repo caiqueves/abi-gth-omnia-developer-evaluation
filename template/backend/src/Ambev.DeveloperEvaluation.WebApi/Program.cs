@@ -28,7 +28,34 @@ public class Program
             builder.Services.AddEndpointsApiExplorer();
 
             builder.AddBasicHealthChecks();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    Description = "Insira o token JWT com o prefixo 'Bearer '"
+                });
+
+                options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+                {
+                    {
+                        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                        {
+                            Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                            {
+                                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
+            });
+
 
             builder.Services.AddDbContext<DefaultContext>(options =>
                 options.UseNpgsql(
@@ -41,7 +68,16 @@ public class Program
             {
                 builder.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Information);
             });
+
             builder.Services.AddJwtAuthentication(builder.Configuration);
+
+            ////builder.Services.AddAuthorization(options =>
+            ////{
+            ////    options.AddPolicy("CustomerRole", policy => policy.RequireRole("Customer"));
+            ////    options.AddPolicy("ManagerRole", policy => policy.RequireRole("Manager"));
+            ////    options.AddPolicy("AdminRole", policy => policy.RequireRole("Admin"));
+            ////    options.AddPolicy("NoneRole", policy => policy.RequireRole("None"));
+            ////});
 
             builder.RegisterDependencies();
 

@@ -123,6 +123,5 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
             await transaction.RollbackAsync(cancellationToken);
             throw;
         }
-
     }
 }

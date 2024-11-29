@@ -11,7 +11,7 @@ namespace Ambev.DeveloperEvaluation.Application.Users.GetUser;
 /// <summary>
 /// Handler for processing GetUserCommand requests
 /// </summary>
-public class ListUserHandler : IRequestHandler<GetUserCommand, GetUserResult>
+public class GetUserHandler : IRequestHandler<GetUserCommand, GetUserResult>
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
@@ -23,7 +23,7 @@ public class ListUserHandler : IRequestHandler<GetUserCommand, GetUserResult>
     /// <param name="userRepository">The user repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for GetUserCommand</param>
-    public ListUserHandler(
+    public GetUserHandler(
         IUserRepository userRepository,
         IMapper mapper, 
         IRedisService redisService)

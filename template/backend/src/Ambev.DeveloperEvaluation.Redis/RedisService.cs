@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Ambev.DeveloperEvaluation.Domain.Services;
 
+namespace Ambev.DeveloperEvaluation.Redis;
 public class RedisService : IRedisService
 {
     private readonly ConnectionMultiplexer _redis;
@@ -9,9 +10,20 @@ public class RedisService : IRedisService
 
     public RedisService(IConfiguration configuration)
     {
-        // Aqui você configura o Redis, usando o hostname do Redis ou a string de conexão
-        _redis = ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis"));
-        _database = _redis.GetDatabase();
+        try
+        {
+            // Conecta ao Redis com as opções de configuração
+            _redis = ConnectionMultiplexer.Connect($"localhost:6379,password=ev@luAt10n");
+            _database = _redis.GetDatabase();
+
+            // Obtém o banco de dados Redis
+            _database = _redis.GetDatabase();
+        }
+        catch (RedisConnectionException ex)
+        {
+            // Lidar com falha na conexão
+            throw new InvalidOperationException("Não foi possível conectar ao Redis.", ex);
+        }
     }
 
 

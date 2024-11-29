@@ -14,6 +14,7 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Users.ListUser;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users;
 
@@ -72,6 +73,7 @@ public class UsersController : BaseController
     /// <param name="id">The unique identifier of the user</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The user details if found</returns>
+    [Authorize]
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResponseWithData<GetUserResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -102,6 +104,10 @@ public class UsersController : BaseController
     /// <param name="id">The unique identifier of the user to delete</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Success response if the user was deleted</returns>
+    
+    ////[Authorize(Roles = "Customer")]
+    ////[Authorize(Roles = "Manager")]
+    ////[Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -124,7 +130,10 @@ public class UsersController : BaseController
             Message = "User deleted successfully"
         });
     }
-
+    [Authorize]
+    ////[Authorize(Roles = "Customer")]
+    ////[Authorize(Roles = "Manager")]
+    ////[Authorize(Roles = "Admin")]
     [HttpPut]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -149,6 +158,9 @@ public class UsersController : BaseController
         });
     }
 
+    [Authorize]
+    ////[Authorize(Roles = "Manager")]
+    ////[Authorize(Roles = "Admin")]
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]

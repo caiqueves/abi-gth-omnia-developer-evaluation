@@ -32,6 +32,17 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.AddressId)
             .IsRequired();
 
+        builder.Property(u => u.Phone).HasMaxLength(20);
+
+
+        builder.Property(u => u.CreateAt)
+                  .HasDefaultValueSql("GETDATE()")
+                  .ValueGeneratedOnAdd(); 
+
+        builder.Property(u => u.UpdateAt)
+              .HasDefaultValue(null) 
+              .ValueGeneratedOnAddOrUpdate();
+
 
     }
 }

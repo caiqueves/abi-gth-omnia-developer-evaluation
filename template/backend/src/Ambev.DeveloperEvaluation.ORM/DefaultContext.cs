@@ -14,6 +14,11 @@ public class DefaultContext : DbContext
 
     public DbSet<Geolocation> Geolocation { get; set; }
 
+    public DbSet<Product> Products { get; set; }
+
+    public DbSet<Rating> Ratings { get; set; }
+
+
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
     {
     }

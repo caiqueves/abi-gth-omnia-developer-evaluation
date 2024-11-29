@@ -3,6 +3,7 @@ using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Services;
 using Ambev.DeveloperEvaluation.Unit.Domain;
 using AutoMapper;
 using FluentAssertions;
@@ -24,6 +25,7 @@ public class CreateUserHandlerTests
     private readonly IUnitOfWork _unitOfWork;
     private readonly EventService _eventService;
     private readonly CreateUserHandler _handler;
+    private readonly IRedisService _redisService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="CreateUserHandlerTests"/> class.
@@ -38,8 +40,9 @@ public class CreateUserHandlerTests
         _geolocationRepository = Substitute.For<IGeolocationRepository>();
         _unitOfWork = Substitute.For<IUnitOfWork>();
         _eventService = Substitute.For<EventService>();
+        _redisService = Substitute.For<IRedisService>();
 
-        _handler = new CreateUserHandler(_userRepository, _mapper, _passwordHasher, _adressRepository, _geolocationRepository,_unitOfWork,_eventService);
+        _handler = new CreateUserHandler(_userRepository, _mapper, _passwordHasher, _adressRepository, _geolocationRepository,_unitOfWork,_eventService, _redisService);
     }
 
     /// <summary>

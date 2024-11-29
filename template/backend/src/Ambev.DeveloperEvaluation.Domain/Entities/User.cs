@@ -47,7 +47,6 @@ public class User : BaseEntity, IUser
     /// </summary>
     public Guid AddressId { get; set; }
 
-
     public virtual Address Address { get; set; }
 
     /// <summary>

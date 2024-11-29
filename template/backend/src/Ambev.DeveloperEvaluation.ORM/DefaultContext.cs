@@ -18,6 +18,9 @@ public class DefaultContext : DbContext
 
     public DbSet<Rating> Ratings { get; set; }
 
+    public DbSet<Venda> Vendas { get; set; }
+    public DbSet<Filial> Filiais { get; set; }
+    public DbSet<VendaProduto> VendaProdutos { get; set; }
 
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
     {
@@ -39,6 +42,19 @@ public class DefaultContext : DbContext
            .HasForeignKey<Address>(a => a.GeolocationId)
            .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<VendaProduto>()
+            .HasKey(vp => new { vp.VendaId, vp.ProdutoId });
+
+        modelBuilder.Entity<VendaProduto>()
+            .HasOne(vp => vp.Venda)
+            .WithMany(v => v.VendaProdutos)
+            .HasForeignKey(vp => vp.VendaId);
+
+        modelBuilder.Entity<VendaProduto>()
+            .HasOne(vp => vp.Produto)
+            .WithMany(p => p.VendaProdutos)
+            .HasForeignKey(vp => vp.ProdutoId);
+ 
         base.OnModelCreating(modelBuilder);
     }
 }

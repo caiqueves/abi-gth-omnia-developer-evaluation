@@ -104,7 +104,8 @@ public class UsersController : BaseController
     /// <param name="id">The unique identifier of the user to delete</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Success response if the user was deleted</returns>
-    
+
+    [Authorize]
     ////[Authorize(Roles = "Customer")]
     ////[Authorize(Roles = "Manager")]
     ////[Authorize(Roles = "Admin")]

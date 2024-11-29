@@ -32,10 +32,10 @@
     <Folder Include="Features\Cars\DeleteCar\" />
     <Folder Include="Features\Cars\ListCars\" />
     <Folder Include="Features\Cars\UpdateCar\" />
-    <Folder Include="Features\Products\UpdateProduct\" />
     <Folder Include="Features\Users\GetUser\" />
     <Folder Include="Features\Users\DeleteUser\" />
     <Folder Include="Mappings\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

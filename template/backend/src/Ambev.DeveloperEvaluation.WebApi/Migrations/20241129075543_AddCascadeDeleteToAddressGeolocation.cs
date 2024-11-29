@@ -5,7 +5,7 @@
 namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class AddProductAndRatingEntity : Migration
+    public partial class AddCascadeDeleteToAddressGeolocation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -1,5 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,23 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
                 return new Geolocation { };
             }
+        }
+
+        public async Task<Geolocation?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _context.Geolocation.Where(o => o.Id == id)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var ads = await GetByIdAsync(id, cancellationToken);
+            if (ads == null)
+                return false;
+
+            _context.Geolocation.Remove(ads);
+            //await _context.SaveChangesAsync(cancellationToken);
+            return true;
         }
     }
 }

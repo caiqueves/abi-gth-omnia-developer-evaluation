@@ -64,16 +64,12 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
         if (existingUser != null)
             throw new InvalidOperationException($"User with email {command.Email} already exists");
 
-        using var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
-
-        try
-        {
             // Criação da Geolocalização
             var geolocation = new Geolocation
             {
                 Id = Guid.NewGuid(),
-                Lat = command.Latitude,
-                Long = command.Longitude
+                Lat = Convert.ToDecimal(command.Latitude),
+                Long = Convert.ToDecimal(command.Longitude)
             };
 
             await _geolocationRepository.CreateAsync(geolocation);
@@ -91,9 +87,6 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
 
             await _adressRepository.CreateAsync(address);
 
-            // Criação do Usuário
-            
-
             var user = _mapper.Map<User>(command);
 
             user.Password = _passwordHasher.HashPassword(command.Password);
@@ -103,25 +96,17 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
             // Salvar todas as alterações no banco de dados
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            // Commit da transação
-            await transaction.CommitAsync(cancellationToken);
-
             var createdUserJson = JsonConvert.SerializeObject(createdUser);
 
             _redisService.SetCache($"user:{user.Id}", createdUserJson);
 
-            _eventService.PublishEvent($"User create with date {createdUserJson}");
+            ////_eventService.PublishEvent($"User create with date {createdUserJson}");
 
             var users = await _userRepository.GetByIdAsync(user.Id);
             var result = _mapper.Map<CreateUserResult>(users);
 
             return result;
-        }
-        catch (Exception)
-        {
-            // Rollback da transação
-            await transaction.RollbackAsync(cancellationToken);
-            throw;
-        }
+        
+        
     }
 }

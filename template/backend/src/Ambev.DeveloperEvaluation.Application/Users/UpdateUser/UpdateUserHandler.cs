@@ -59,15 +59,11 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
         if (existingUser != null)
             throw new ApplicationException($"User with email {command.Email} already exists");
 
-        using var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
-
-        try
-        {
             // Criação da Geolocalização
             var geolocation = new Geolocation
             {
-                Lat = command.Latitude,
-                Long = command.Longitude
+                Lat = Convert.ToDecimal(command.Latitude),
+                Long = Convert.ToDecimal(command.Longitude)
             };
 
             await _geolocationRepository.UpdateAsync(geolocation);
@@ -102,21 +98,9 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
             // Salvar todas as alterações no banco de dados
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            // Commit da transação
-            await transaction.CommitAsync(cancellationToken);
-
             _redisService.SetCache($"user:{user.Id}", JsonConvert.SerializeObject(createdUser));
 
             var result = _mapper.Map<UpdateUserResult>(createdUser);
             return result;
-        }
-        catch (Exception)
-        {
-            // Rollback da transação
-            await transaction.RollbackAsync(cancellationToken);
-            throw;
-        }
-
-        
     }
 }

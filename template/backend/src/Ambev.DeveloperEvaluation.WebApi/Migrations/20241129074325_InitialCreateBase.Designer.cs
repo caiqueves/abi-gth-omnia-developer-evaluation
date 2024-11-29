@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20241128223218_CreateProductAndRatingTables")]
-    partial class CreateProductAndRatingTables
+    [Migration("20241129074325_InitialCreateBase")]
+    partial class InitialCreateBase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,15 +66,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Lat")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                    b.Property<decimal>("Lat")
+                        .HasColumnType("decimal(9, 6)");
 
-                    b.Property<string>("Long")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                    b.Property<decimal>("Long")
+                        .HasColumnType("decimal(9, 6)");
 
                     b.HasKey("Id");
 
@@ -149,8 +145,10 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     b.Property<Guid>("AddressId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("CreateAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -187,7 +185,8 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
-                    b.Property<DateTime?>("UpdatedAt")
+                    b.Property<DateTime?>("UpdateAt")
+                        .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Username")
@@ -218,7 +217,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Rating", "Rating")
                         .WithMany()
                         .HasForeignKey("RatingId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Rating");

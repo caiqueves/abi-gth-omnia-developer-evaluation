@@ -26,6 +26,19 @@ public class DefaultContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Address) // Um usuário tem um endereço
+            .WithMany() // O endereço pode ter muitos usuários (ajuste conforme sua lógica)
+            .HasForeignKey(u => u.AddressId)  // Definindo a chave estrangeira no lado do usuário
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Address>()
+           .HasOne(a => a.Geolocation)
+           .WithOne()  // Se for um para um
+           .HasForeignKey<Address>(a => a.GeolocationId)
+           .OnDelete(DeleteBehavior.Cascade);
+
         base.OnModelCreating(modelBuilder);
     }
 }

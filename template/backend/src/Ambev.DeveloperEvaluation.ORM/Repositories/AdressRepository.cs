@@ -1,5 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
             try
             {
-                //await _context.SaveChangesAsync(cancellationToken);
+                ////await _context.SaveChangesAsync(cancellationToken);
                 return existingAddress;
             }
             catch (Exception)
@@ -56,6 +57,23 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
                 return new Address { };
             }
+        }
+
+        public async Task<Address?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            return await _context.Addresss.Where(o => o.Id == id)
+                .Include(ads => ads.Geolocation).FirstOrDefaultAsync(cancellationToken);
+        }
+
+        public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var ads = await GetByIdAsync(id, cancellationToken);
+            if (ads == null)
+                return false;
+
+            _context.Addresss.Remove(ads);
+            ////await _context.SaveChangesAsync(cancellationToken);
+            return true;
         }
     }
 }

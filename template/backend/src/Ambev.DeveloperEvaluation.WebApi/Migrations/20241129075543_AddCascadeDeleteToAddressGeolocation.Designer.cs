@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20241129033956_AlteracaoUser")]
-    partial class AlteracaoUser
+    [Migration("20241129075543_AddCascadeDeleteToAddressGeolocation")]
+    partial class AddCascadeDeleteToAddressGeolocation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,15 +66,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Lat")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                    b.Property<decimal>("Lat")
+                        .HasColumnType("decimal(9, 6)");
 
-                    b.Property<string>("Long")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                    b.Property<decimal>("Long")
+                        .HasColumnType("decimal(9, 6)");
 
                     b.HasKey("Id");
 
@@ -152,7 +148,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     b.Property<DateTime>("CreateAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("GETDATE()");
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -221,7 +217,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Rating", "Rating")
                         .WithMany()
                         .HasForeignKey("RatingId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Rating");

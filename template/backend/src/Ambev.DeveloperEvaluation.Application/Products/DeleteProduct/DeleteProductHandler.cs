@@ -13,6 +13,7 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, Delete
     private readonly IProductRepository _productRepository;
     private readonly IRedisService _redisService;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IRatingRepository _ratingRepository;
 
     /// <summary>
     /// Initializes a new instance of DeleteUserHandler
@@ -20,11 +21,12 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, Delete
     /// <param name="userRepository">The user repository</param>
     /// <param name="validator">The validator for DeleteUserCommand</param>
     public DeleteProductHandler(
-        IProductRepository productRepository, IRedisService redisService, IUnitOfWork unitOfWork)
+        IProductRepository productRepository, IRedisService redisService, IUnitOfWork unitOfWork, IRatingRepository ratingRepository)
     {
         _productRepository = productRepository;
         _redisService = redisService;
         _unitOfWork = unitOfWork;
+        _ratingRepository = ratingRepository;
     }
 
     /// <summary>
@@ -41,25 +43,19 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, Delete
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        using var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
-        try
-        {
+            var product = await _productRepository.GetByIdAsync(request.Id, cancellationToken);
+
+            await _ratingRepository.DeleteAsync(product.RatingId, cancellationToken);
             var success = await _productRepository.DeleteAsync(request.Id, cancellationToken);
+          
             if (!success)
                 throw new KeyNotFoundException($"Product with ID {request.Id} not found");
 
-            await transaction.CommitAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             _redisService.RemoveCache(request.Id.ToString());
 
             return new DeleteProductResponse { Success = true };
-        }
-        catch (Exception)
-        {
-            // Rollback da transação
-            await transaction.RollbackAsync(cancellationToken);
-            throw;
-        }
-        
+
     }
 }

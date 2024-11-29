@@ -15,27 +15,39 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
         {
             builder.ToTable("Address");
 
+            // Definindo a chave primária
             builder.HasKey(a => a.Id);
-            builder.Property(u => u.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
 
+            // Definindo a coluna 'Id' como tipo UUID e gerando valor por padrão
+            builder.Property(a => a.Id)
+                   .HasColumnType("uuid")
+                   .HasDefaultValueSql("gen_random_uuid()");
+
+            // Definindo as propriedades (campos) da tabela 'Address'
             builder.Property(a => a.Street)
-                .IsRequired()
-                .HasMaxLength(200);
+                   .IsRequired()
+                   .HasMaxLength(200);
 
             builder.Property(a => a.City)
-                .IsRequired()
-                .HasMaxLength(100);
+                   .IsRequired()
+                   .HasMaxLength(100);
 
             builder.Property(a => a.Zipcode)
-                .IsRequired()
-                .HasMaxLength(20);
+                   .IsRequired()
+                   .HasMaxLength(20);
 
             builder.Property(a => a.Number)
-                .IsRequired();
+                   .IsRequired();
 
+            // Definindo a propriedade 'GeolocationId' como obrigatória
             builder.Property(a => a.GeolocationId)
-                .IsRequired();
+                   .IsRequired();
+
+            // Definindo o relacionamento com a tabela 'Geolocation' (assumindo que existe uma entidade chamada 'Geolocation')
+            builder.HasOne(a => a.Geolocation)  // Assumindo que a entidade 'Address' tem uma propriedade de navegação 'Geolocation'
+                   .WithMany()  // Relacionamento de 1 para N (1 Geolocation pode ter vários Endereços, dependendo do seu modelo)
+                   .HasForeignKey(a => a.GeolocationId)  // Definindo a chave estrangeira 'GeolocationId'
+                   .OnDelete(DeleteBehavior.Cascade);  // Definindo o comportamento de exclusão em cascata (opcional, mas pode ser útil)
         }
     }
-
 }

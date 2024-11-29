@@ -12,5 +12,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         Task<Geolocation> CreateAsync(Geolocation geolocation, CancellationToken cancellationToken = default);
 
         Task<Geolocation> UpdateAsync(Geolocation geolocation, CancellationToken cancellationToken = default);
+
+        Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }

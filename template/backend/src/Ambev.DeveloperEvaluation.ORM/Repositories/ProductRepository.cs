@@ -77,7 +77,7 @@ public class ProductRepository : IProductRepository
             return false;
 
         _context.Products.Remove(product);
-        //await _context.SaveChangesAsync(cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
         return true;
     }
 

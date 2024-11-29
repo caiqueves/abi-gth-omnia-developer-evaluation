@@ -1,11 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.ORM.Mapping
 {
@@ -15,15 +10,18 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
         {
             builder.ToTable("Geolocation");
 
-            builder.HasKey(a => a.Id);
+            // Definindo a chave primária
+            builder.HasKey(g => g.Id);
 
-            builder.Property(a => a.Lat)
+            // Definindo a propriedade 'Latitude' (Usando decimal para garantir precisão)
+            builder.Property(g => g.Lat)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasColumnType("decimal(9, 6)"); // 9 dígitos no total e 6 casas decimais
 
-            builder.Property(a => a.Long)
+            // Definindo a propriedade 'Longitude' (Usando decimal para garantir precisão)
+            builder.Property(g => g.Long)
                 .IsRequired()
-                .HasMaxLength(50);
+                .HasColumnType("decimal(9, 6)"); // 9 dígitos no total e 6 casas decimais
         }
     }
 }

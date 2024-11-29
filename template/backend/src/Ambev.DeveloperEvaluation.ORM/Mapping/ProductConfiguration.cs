@@ -15,30 +15,47 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
         {
             builder.ToTable("Product");
 
-            builder.HasKey(a => a.Id);
-            builder.Property(u => u.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
+            // Definindo a chave primária
+            builder.HasKey(p => p.Id);
 
-            builder.Property(a => a.Title)
+            // Configuração do campo 'Id' com UUID
+            builder.Property(p => p.Id)
+                .HasColumnType("uuid")
+                .HasDefaultValueSql("gen_random_uuid()");
+
+            // Configuração do 'Title' (obrigatório e com limite de tamanho)
+            builder.Property(p => p.Title)
                 .IsRequired()
                 .HasMaxLength(200);
 
-            builder.Property(a => a.Price)
+            // Configuração do 'Price' (tipo decimal com precisão e escala)
+            builder.Property(p => p.Price)
                 .HasColumnType("decimal(18,2)");
 
-            builder.Property(a => a.Description)
+            // Configuração da 'Description' (obrigatória e com limite de tamanho)
+            builder.Property(p => p.Description)
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.Property(a => a.Category)
+            // Configuração da 'Category' (obrigatória e com limite de tamanho)
+            builder.Property(p => p.Category)
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.Property(a => a.Image)
+            // Configuração da 'Image' (obrigatória e com limite de tamanho)
+            builder.Property(p => p.Image)
                 .IsRequired()
                 .HasMaxLength(100);
 
+            // Definindo o relacionamento com 'RatingId' (presumindo que seja uma chave estrangeira)
             builder.Property(p => p.RatingId)
-                     .IsRequired();
+                .IsRequired();
+
+            // Se 'Rating' é uma entidade relacionada, faça o mapeamento do relacionamento
+            builder.HasOne(p => p.Rating) // Assumindo que 'Rating' seja uma entidade relacionada
+                .WithMany() // Um Produto tem um Rating, mas um Rating pode ter muitos Produtos (ajustar conforme necessário)
+                .HasForeignKey(p => p.RatingId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

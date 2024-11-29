@@ -49,10 +49,7 @@ public class CreateProductHandler : IRequestHandler<CreateProductCommand, Create
         if (existingProduct != null)
             throw new InvalidOperationException($"Product with title {command.Title} already exists");
 
-        using var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken);
 
-        try
-        {
             var rating = new Rating
             {
                 Id = Guid.NewGuid(),
@@ -71,9 +68,6 @@ public class CreateProductHandler : IRequestHandler<CreateProductCommand, Create
             // Salvar todas as alterações no banco de dados
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            // Commit da transação
-            await transaction.CommitAsync(cancellationToken);
-
             var createdProductJson = JsonConvert.SerializeObject(createdProduct);
 
             _redisService.SetCache($"product:{product.Id}", createdProductJson);
@@ -84,13 +78,6 @@ public class CreateProductHandler : IRequestHandler<CreateProductCommand, Create
             var result = _mapper.Map<CreateProductResult>(products);
 
             return result;
-        }
-        catch (Exception)
-        {
-            // Rollback da transação
-            await transaction.RollbackAsync(cancellationToken);
-            throw;
-        }
 
     }
 }

@@ -27,13 +27,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Cars\CreateCar\" />
-    <Folder Include="Features\Cars\GetCar\" />
-    <Folder Include="Features\Cars\DeleteCar\" />
-    <Folder Include="Features\Cars\ListCars\" />
-    <Folder Include="Features\Cars\UpdateCar\" />
+    <Folder Include="Features\Vendas\GetCar\" />
+    <Folder Include="Features\Vendas\DeleteCar\" />
+    <Folder Include="Features\Vendas\ListCars\" />
+    <Folder Include="Features\Vendas\UpdateCar\" />
     <Folder Include="Features\Users\GetUser\" />
-    <Folder Include="Features\Users\DeleteUser\" />
     <Folder Include="Mappings\" />
     <Folder Include="Migrations\" />
   </ItemGroup>

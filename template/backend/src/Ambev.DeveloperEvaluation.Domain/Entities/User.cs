@@ -93,10 +93,7 @@ public class User : BaseEntity, IUser
     /// <summary>
     /// Initializes a new instance of the User class.
     /// </summary>
-    public User()
-    {
-        CreateAt = DateTime.UtcNow;
-    }
+    public User() => CreateAt = DateTime.UtcNow;
 
     /// <summary>
     /// Performs validation of the user entity using the UserValidator rules.

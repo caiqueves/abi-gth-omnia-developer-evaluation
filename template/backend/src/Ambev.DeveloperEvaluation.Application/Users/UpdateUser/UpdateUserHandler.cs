@@ -49,19 +49,24 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
     /// <returns>The created user details</returns>
     public async Task<UpdateUserResult> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
     {
-        var validator = new UpdateUserCommandValidator();
-        var validationResult = await validator.ValidateAsync(command, cancellationToken);
+        try
+        {
+            var validator = new UpdateUserCommandValidator();
+            var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
-        if (!validationResult.IsValid)
-            throw new ValidationException(validationResult.Errors);
+            if (!validationResult.IsValid)
+                throw new ValidationException(validationResult.Errors);
 
-        var existingUser = await _userRepository.GetByEmailAsync(command.Email, cancellationToken);
-        if (existingUser != null)
-            throw new ApplicationException($"User with email {command.Email} already exists");
+            var existingUser = await _userRepository.GetByEmailAsync(command.Email, cancellationToken);
+
+            if (existingUser != null && existingUser.Id.CompareTo(command.Id) == 0)
+                //if (existingUser != null)
+                throw new ApplicationException($"User with email {command.Email} already exists");
 
             // Criação da Geolocalização
             var geolocation = new Geolocation
             {
+                Id = Guid.NewGuid(),
                 Lat = Convert.ToDecimal(command.Latitude),
                 Long = Convert.ToDecimal(command.Longitude)
             };
@@ -93,14 +98,20 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
             }
             user.Password = _passwordHasher.HashPassword(command.Password);
 
-            var createdUser = await _userRepository.UpdateAsync(user, cancellationToken);
-
-            // Salvar todas as alterações no banco de dados
+            await _userRepository.UpdateAsync(user, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
+            var createdUser = _userRepository.GetByIdAsync(user.Id, cancellationToken).Result;
+            // Salvar todas as alterações no banco de dados
+            
 
             _redisService.SetCache($"user:{user.Id}", JsonConvert.SerializeObject(createdUser));
 
-            var result = _mapper.Map<UpdateUserResult>(createdUser);
-            return result;
+            //var result = 
+            return _mapper.Map<UpdateUserResult>(createdUser); 
+        }
+        catch(Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 }

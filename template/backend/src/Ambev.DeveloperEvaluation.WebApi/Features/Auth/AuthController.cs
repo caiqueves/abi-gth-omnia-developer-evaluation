@@ -1,10 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Auth.AuthenticateUserFeature;
 using Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser;
 using Microsoft.AspNetCore.Authorization;
+using Ambev.DeveloperEvaluation.Common;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Auth;
 
@@ -53,7 +54,7 @@ public class AuthController : BaseController
         return Ok(new ApiResponseWithData<AuthenticateUserResponse>
         {
             Success = true,
-            Message = "User authenticated successfully",
+            //Message = "User authenticated successfully",
             Data = _mapper.Map<AuthenticateUserResponse>(response)
         });
     }

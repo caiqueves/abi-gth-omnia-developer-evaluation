@@ -7,7 +7,6 @@ using Ambev.DeveloperEvaluation.ORM.Repositories;
 using Ambev.DeveloperEvaluation.Redis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ambev.DeveloperEvaluation.IoC.ModuleInitializers;
@@ -25,6 +24,9 @@ public class InfrastructureModuleInitializer : IModuleInitializer
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
         builder.Services.AddScoped<IRatingRepository, RatingRepository>();
         builder.Services.AddScoped<IRedisService, RedisService>();
+        builder.Services.AddScoped<IVendaRepository, VendaRepository>();
+        builder.Services.AddScoped<IVendaProdutoRepository, VendaProdutoRepository>();
+
         // Registrando o EventService
         builder.Services.AddScoped<EventService>();
     }

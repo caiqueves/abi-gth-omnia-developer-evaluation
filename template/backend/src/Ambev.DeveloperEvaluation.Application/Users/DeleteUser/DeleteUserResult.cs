@@ -1,9 +1,8 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;
+namespace Ambev.DeveloperEvaluation.Application.Users.DeleteUser;
 
-
-public class UpdateUserResponse
+public class DeleteUserResult
 {
     /// <summary>
     /// Gets or sets the unique identifier of the newly created user.
@@ -40,4 +39,5 @@ public class UpdateUserResponse
     /// The user's role in the system
     /// </summary>
     public string Role { get; set; } = string.Empty;
+    
 }

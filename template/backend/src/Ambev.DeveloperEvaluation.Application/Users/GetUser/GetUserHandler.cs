@@ -57,11 +57,14 @@ public class GetUserHandler : IRequestHandler<GetUserCommand, GetUserResult>
         else
         {
             user = await _userRepository.GetByIdAsync(request.Id, cancellationToken);
+
+            if (user == null)
+                throw new KeyNotFoundException($"User with ID {request.Id} not found");
+
             _redisService.SetCache($"user:{user!.Id}", JsonConvert.SerializeObject(user));
         }
 
-        if (user == null)
-            throw new KeyNotFoundException($"User with ID {request.Id} not found");
+        
 
         return _mapper.Map<GetUserResult>(user);
     }

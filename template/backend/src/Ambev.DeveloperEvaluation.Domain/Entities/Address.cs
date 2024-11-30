@@ -4,7 +4,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
     public class Address : BaseEntity
     {
-        public Guid Id { get; set; }
+        public new Guid Id { get; set; }
         public string City { get; set; } = string.Empty;
         public string Street { get; set; } = string.Empty;
         public int Number { get; set; }

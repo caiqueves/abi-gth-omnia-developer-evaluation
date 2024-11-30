@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.CreateUser;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUser;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
@@ -61,8 +61,8 @@ public class UsersController : BaseController
 
         return Created(string.Empty, new ApiResponse
         {
-            Success = true,
-            Message = "User created successfully",
+            //Success = true,
+            //Message = "User created successfully",
             Data = _mapper.Map<CreateUserResponse>(response)
         });
     }
@@ -92,8 +92,8 @@ public class UsersController : BaseController
 
         return Ok(new ApiResponse
         {
-            Success = true,
-            Message = "User retrieved successfully",
+            //Success = true,
+            //Message = "User retrieved successfully",
             Data = _mapper.Map<GetUserResponse>(response)
         });
     }
@@ -123,12 +123,13 @@ public class UsersController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<DeleteUserCommand>(request.Id);
-        await _mediator.Send(command, cancellationToken);
+        var response = await _mediator.Send(command, cancellationToken);
 
         return Ok(new ApiResponse
         {
-            Success = true,
-            Message = "User deleted successfully"
+            //Success = true,
+            //Message = "User deleted successfully",
+            Data = _mapper.Map<DeleteUserResponse>(response)
         });
     }
     [Authorize]
@@ -154,8 +155,9 @@ public class UsersController : BaseController
 
         return Ok(new ApiResponse
         {
-            Success = true,
-            Message = "User updated successfully"
+            //Success = true,
+            //Message = "User updated successfully",
+            Data = _mapper.Map<UpdateUserResponse>(response)
         });
     }
 
@@ -182,8 +184,8 @@ public class UsersController : BaseController
 
         return Ok(new ApiResponse
         {
-            Success = true,
-            Message = "List User successfully",
+            //Success = true,
+            //Message = "List User successfully",
             Data = new ListUserResponse { Data = response, TotalItems = response.TotalCount, CurrentPage = response.CurrentPage, TotalPages = response.TotalPages }
         });
     }

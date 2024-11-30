@@ -1,6 +1,6 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
-using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.Common;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.ListProduct;
 

@@ -1,14 +1,13 @@
-using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
 
-
-public class UpdateUserResponse
+public class DeleteUserResponse
 {
-    /// <summary>
-    /// Gets or sets the unique identifier of the newly created user.
-    /// </summary>
-    /// <value>A GUID that uniquely identifies the created user in the system.</value>
+    // <summary>
+    // Gets or sets the unique identifier of the newly created user.
+    // </summary>
+    // <value>A GUID that uniquely identifies the created user in the system.</value>
     public Guid Id { get; set; }
 
     /// <summary>
@@ -40,4 +39,9 @@ public class UpdateUserResponse
     /// The user's role in the system
     /// </summary>
     public string Role { get; set; } = string.Empty;
+    
+
 }
+
+
+

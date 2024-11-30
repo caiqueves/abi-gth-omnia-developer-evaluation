@@ -3,6 +3,7 @@ using System;
 using Ambev.DeveloperEvaluation.ORM;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    partial class DefaultContextModelSnapshot : ModelSnapshot
+    [Migration("20241129204031_AddFieldAmountProduct")]
+    partial class AddFieldAmountProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,8 +222,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AddressId")
-                        .IsUnique();
+                    b.HasIndex("AddressId");
 
                     b.ToTable("Users", (string)null);
                 });
@@ -275,9 +277,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                     b.Property<decimal>("PrecoUnitario")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid?>("ProductId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("Quantidade")
                         .HasColumnType("integer");
 
@@ -285,8 +284,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("VendaId", "ProdutoId");
-
-                    b.HasIndex("ProductId");
 
                     b.HasIndex("ProdutoId");
 
@@ -318,9 +315,9 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.User", b =>
                 {
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Address", "Address")
-                        .WithOne()
-                        .HasForeignKey("Ambev.DeveloperEvaluation.Domain.Entities.User", "AddressId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Address");
@@ -351,12 +348,8 @@ namespace Ambev.DeveloperEvaluation.WebApi.Migrations
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.VendaProduto", b =>
                 {
-                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Product", null)
-                        .WithMany("VendaProdutos")
-                        .HasForeignKey("ProductId");
-
                     b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Product", "Produto")
-                        .WithMany()
+                        .WithMany("VendaProdutos")
                         .HasForeignKey("ProdutoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

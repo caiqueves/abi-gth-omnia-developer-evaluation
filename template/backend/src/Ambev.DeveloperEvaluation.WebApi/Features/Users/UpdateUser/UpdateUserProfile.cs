@@ -1,6 +1,9 @@
+using Ambev.DeveloperEvaluation.Application.Users.GetUser;
 using Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUser;
 using AutoMapper;
+using Microsoft.OpenApi.Extensions;
 
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;
@@ -16,6 +19,13 @@ public class UpdateUserProfile : Profile
     public UpdateUserProfile()
     {
         CreateMap<UpdateUserRequest, UpdateUserCommand>();
-        CreateMap<UpdateUserCommand, User>();
+        //CreateMap<UpdateUserCommand, User>();
+        CreateMap<User, UpdateUserResult>()
+            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.GetDisplayName()))
+           .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.GetDisplayName()));
+
+        CreateMap<UpdateUserResult, UpdateUserResponse>()
+         .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role.ToString()))
+         .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
     }
 }

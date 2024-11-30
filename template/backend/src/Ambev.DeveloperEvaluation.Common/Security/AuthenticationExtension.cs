@@ -31,8 +31,11 @@ namespace Ambev.DeveloperEvaluation.Common.Security
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateIssuer = true,
+                    ValidIssuer = "localhost",
+                    ValidateAudience = true,
+                    ValidAudience = "Ambev",
+                    ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
                 };
             });

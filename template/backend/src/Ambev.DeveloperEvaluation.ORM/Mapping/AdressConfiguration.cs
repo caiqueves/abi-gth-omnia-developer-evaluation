@@ -39,15 +39,12 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
             builder.Property(a => a.Number)
                    .IsRequired();
 
-            // Definindo a propriedade 'GeolocationId' como obrigatória
             builder.Property(a => a.GeolocationId)
                    .IsRequired();
 
-            // Definindo o relacionamento com a tabela 'Geolocation' (assumindo que existe uma entidade chamada 'Geolocation')
-            builder.HasOne(a => a.Geolocation)  // Assumindo que a entidade 'Address' tem uma propriedade de navegação 'Geolocation'
-                   .WithMany()  // Relacionamento de 1 para N (1 Geolocation pode ter vários Endereços, dependendo do seu modelo)
-                   .HasForeignKey(a => a.GeolocationId)  // Definindo a chave estrangeira 'GeolocationId'
-                   .OnDelete(DeleteBehavior.Cascade);  // Definindo o comportamento de exclusão em cascata (opcional, mas pode ser útil)
+            builder.HasOne(a => a.Geolocation) 
+                   .WithOne()  
+                   .OnDelete(DeleteBehavior.Cascade); 
         }
     }
 }

@@ -5,7 +5,7 @@ using Ambev.DeveloperEvaluation.Application.Products.ListCategory;
 using Ambev.DeveloperEvaluation.Application.Products.ListProducts;
 using Ambev.DeveloperEvaluation.Application.Products.ListProductsCategory;
 using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
-using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
@@ -50,8 +50,8 @@ public class ProductController : BaseController
 
         return Created(string.Empty, new ApiResponse
         {
-            Success = true,
-            Message = "Product created successfully",
+            //Success = true,
+            //Message = "Product created successfully",
             Data = _mapper.Map<CreateProductResponse>(response)
         });
     }
@@ -75,8 +75,8 @@ public class ProductController : BaseController
 
         return Ok(new ApiResponse
         {
-            Success = true,
-            Message = "Product retrieved successfully",
+            //Success = true,
+            //Message = "Product retrieved successfully",
             Data = _mapper.Map<GetProductResponse>(response)
         });
     }
@@ -104,8 +104,8 @@ public class ProductController : BaseController
 
         return Ok(new ApiResponse
         {
-            Success = true,
-            Message = "List Product successfully",
+            //Success = true,
+            //Message = "List Product successfully",
             Data = new ListProductResponse { Data = response, TotalItems = response.TotalCount, CurrentPage = response.CurrentPage, TotalPages = response.TotalPages }
         });
     }
@@ -133,8 +133,8 @@ public class ProductController : BaseController
 
         return Ok(new ApiResponse
         {
-            Success = true,
-            Message = "List Product Category successfully",
+            //Success = true,
+            //Message = "List Product Category successfully",
             Data = new ListProductResponse { Data = response, TotalItems = response.TotalCount, CurrentPage = response.CurrentPage, TotalPages = response.TotalPages }
         });
     }
@@ -208,8 +208,8 @@ public class ProductController : BaseController
 
         return Ok(new ApiResponse
         {
-            Success = true,
-            Message = "Product deleted successfully"
+            //Success = true,
+            //Message = "Product deleted successfully"
         });
     }
 }

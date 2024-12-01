@@ -11,10 +11,7 @@ public class ProductRepository : IProductRepository
 {
     private readonly DefaultContext _context;
 
-    /// <summary>
-    /// Initializes a new instance of UserRepository
-    /// </summary>
-    /// <param name="context">The database context</param>
+    
     public ProductRepository(DefaultContext context)
     {
         _context = context;
@@ -55,7 +52,7 @@ public class ProductRepository : IProductRepository
 
     public IQueryable<Product> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return _context.Products.Where(c => c.Id != null)
+        return _context.Products.Where(static c => c.Id != null)
             .Include(ads => ads.Rating);
     }
 
@@ -92,6 +89,7 @@ public class ProductRepository : IProductRepository
 
         existingProduct.Title = product.Title;
         existingProduct.Price = product.Price;
+        existingProduct.Amount = product.Amount;
         existingProduct.Description = product.Description;
         existingProduct.Category = product.Category;
         existingProduct.Image = product.Image;
@@ -107,6 +105,30 @@ public class ProductRepository : IProductRepository
         {
             
             return new Product { }; 
+        }
+    }
+
+    public async Task<Product> UpdateAmountAsync(Guid Id, int Amount, CancellationToken cancellationToken = default)
+    {
+        var existingProduct = await _context.Products.FindAsync(new object[] { Id }, cancellationToken);
+
+        if (existingProduct == null)
+        {
+            return new Product { };
+        }
+
+        existingProduct.Amount = Amount;
+
+        _context.Products.Update(existingProduct);
+
+        try
+        {
+            // _context.SaveChangesAsync(cancellationToken);
+            return existingProduct;
+        }
+        catch (Exception)
+        {
+            return new Product { };
         }
     }
 }

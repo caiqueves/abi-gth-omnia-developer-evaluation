@@ -36,30 +36,25 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var existingProduct = await _productRepository.GetByTitleAsync(command.Title, cancellationToken);
-        if (existingProduct != null)
-            throw new ApplicationException($"Product with title {command.Title} already exists");
+        var existingProduct = _productRepository.GetByIdAsync(Guid.Parse(command.Id), cancellationToken).Result;
+        if (existingProduct == null)
+            throw new ApplicationException($"Product for Id {command.Id} not found");
 
-            // Criação da Geolocalização
-            var rating = new Rating
-            {
-                Count = command.Count,
-                Rate = command.Rate
-            };
+        existingProduct!.Rating!.Count = command.Count;
+        existingProduct!.Rating!.Rate = command.Rate;
 
-            await _ratingRepository.UpdateAsync(rating);
+        await _ratingRepository.UpdateAsync(existingProduct.Rating, cancellationToken);
 
-            var product = _mapper.Map<Product>(command);
+        var product = _mapper.Map<Product>(command);
 
-            await _productRepository.UpdateAsync(product, cancellationToken);
+        await _productRepository.UpdateAsync(product, cancellationToken);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var updatedProduct = _productRepository.GetByIdAsync(product.Id, cancellationToken);
-            
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+        var updatedProduct = _productRepository.GetByIdAsync(product.Id, cancellationToken).Result;
 
-            _redisService.SetCache($"product:{product.Id}", JsonConvert.SerializeObject(updatedProduct));
+        _redisService.SetCache($"product:{product.Id}", JsonConvert.SerializeObject(updatedProduct));
 
-            var result = _mapper.Map<UpdateProductResult>(updatedProduct);
-            return result;
+        var result = _mapper.Map<UpdateProductResult>(updatedProduct);
+        return result;
     }
 }

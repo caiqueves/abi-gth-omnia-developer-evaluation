@@ -2,7 +2,7 @@
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.DeleteUser;
 
-public class DeleteUserResponse
+public record DeleteUserResponse
 {
     // <summary>
     // Gets or sets the unique identifier of the newly created user.

@@ -7,7 +7,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.ListProductCategory
 /// <summary>
 /// API response model for GetUser operation
 /// </summary>
-public class ListProductCategoryResponse
+public record ListProductCategoryResponse
 {
     public List<Product>? Data { get; set; }  // Lista de usuários
     public int TotalItems { get; set; }  // Total de itens no banco

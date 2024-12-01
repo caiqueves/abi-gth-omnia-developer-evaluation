@@ -2,18 +2,21 @@ using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Services;
+using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
 
 /// <summary>
 /// Handler for processing DeleteUserCommand requests
 /// </summary>
-public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, DeleteProductResponse>
+public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, DeleteProductResult>
 {
     private readonly IProductRepository _productRepository;
     private readonly IRedisService _redisService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRatingRepository _ratingRepository;
+    private readonly IMapper _mapper;
+
 
     /// <summary>
     /// Initializes a new instance of DeleteUserHandler
@@ -21,12 +24,13 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, Delete
     /// <param name="userRepository">The user repository</param>
     /// <param name="validator">The validator for DeleteUserCommand</param>
     public DeleteProductHandler(
-        IProductRepository productRepository, IRedisService redisService, IUnitOfWork unitOfWork, IRatingRepository ratingRepository)
+        IProductRepository productRepository, IRedisService redisService, IUnitOfWork unitOfWork, IRatingRepository ratingRepository, IMapper mapper)
     {
         _productRepository = productRepository;
         _redisService = redisService;
         _unitOfWork = unitOfWork;
         _ratingRepository = ratingRepository;
+        _mapper = mapper;
     }
 
     /// <summary>
@@ -35,7 +39,7 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, Delete
     /// <param name="request">The DeleteUser command</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the delete operation</returns>
-    public async Task<DeleteProductResponse> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
+    public async Task<DeleteProductResult> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
     {
         var validator = new DeleteProductValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -45,7 +49,7 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, Delete
 
             var product = await _productRepository.GetByIdAsync(request.Id, cancellationToken);
 
-            await _ratingRepository.DeleteAsync(product.RatingId, cancellationToken);
+            await _ratingRepository.DeleteAsync(product!.RatingId, cancellationToken);
             var success = await _productRepository.DeleteAsync(request.Id, cancellationToken);
           
             if (!success)
@@ -55,7 +59,7 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, Delete
 
             _redisService.RemoveCache(request.Id.ToString());
 
-            return new DeleteProductResponse { Success = true };
+            return _mapper.Map<DeleteProductResult>(request);
 
     }
 }

@@ -12,5 +12,6 @@ public class DeleteProductProfile : Profile
             .ConstructUsing(id => new Application.Products.DeleteProduct.DeleteProductCommand(id));
 
         CreateMap<DeleteProductRequest, DeleteProductCommand>();
+        CreateMap<DeleteProductResult, DeleteProductResponse>();
     }
 }

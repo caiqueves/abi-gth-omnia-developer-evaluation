@@ -1,11 +1,11 @@
 using Ambev.DeveloperEvaluation.Domain.Entities;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
+namespace Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
 
 /// <summary>
-/// API response model for GetUser operation
+/// Response model for DeleteUser operation
 /// </summary>
-public record GetProductResponse
+public class DeleteProductResponse
 {
     public string Id { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;    // O nome do produto

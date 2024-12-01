@@ -1,7 +1,4 @@
-﻿
-using Ambev.DeveloperEvaluation.Domain.Enums;
-using Ambev.DeveloperEvaluation.Domain.Validation;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
 
@@ -10,12 +7,14 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
 {
     public UpdateProductCommandValidator()
     {
+        RuleFor(prd => prd.Id).NotEmpty();
         RuleFor(prd => prd.Title).NotEmpty();
-        RuleFor(user => user.Price).NotEmpty();
-        RuleFor(user => user.Description).NotEmpty().MinimumLength(10).MaximumLength(100);
-        RuleFor(user => user.Category).NotEmpty().MinimumLength(10).MaximumLength(100);
-        RuleFor(user => user.Image).NotEmpty().MinimumLength(10).MaximumLength(100);
-        RuleFor(user => user.Rate).NotEmpty();
-        RuleFor(user => user.Count).NotEmpty();
+        RuleFor(prd => prd.Price).NotEmpty();
+        RuleFor(prd => prd.Amount).NotEmpty();
+        RuleFor(prd => prd.Description).NotEmpty().MinimumLength(10).MaximumLength(100);
+        RuleFor(prd => prd.Category).NotEmpty().MinimumLength(10).MaximumLength(100);
+        RuleFor(prd => prd.Image).NotEmpty().MinimumLength(10).MaximumLength(100);
+        RuleFor(prd => prd.Rate).NotEmpty();
+        RuleFor(prd => prd.Count).NotEmpty();
     }
 }

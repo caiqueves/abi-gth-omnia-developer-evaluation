@@ -11,10 +11,6 @@ public class RatingRepository : IRatingRepository
 {
     private readonly DefaultContext _context;
 
-    /// <summary>
-    /// Initializes a new instance of UserRepository
-    /// </summary>
-    /// <param name="context">The database context</param>
     public RatingRepository(DefaultContext context)
     {
         _context = context;
@@ -35,7 +31,7 @@ public class RatingRepository : IRatingRepository
 
     public IQueryable<Rating> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return _context.Ratings.Where(c => c.Id != null);
+        return _context.Ratings.Where(static c => c.Id != null);
     }
 
     public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)

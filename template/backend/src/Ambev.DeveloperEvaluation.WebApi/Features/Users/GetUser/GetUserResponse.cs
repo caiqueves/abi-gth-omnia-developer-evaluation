@@ -6,7 +6,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.GetUser;
 /// <summary>
 /// API response model for GetUser operation
 /// </summary>
-public class GetUserResponse
+public record GetUserResponse
 {
     // <summary>
     /// Gets or sets the unique identifier of the newly created user.

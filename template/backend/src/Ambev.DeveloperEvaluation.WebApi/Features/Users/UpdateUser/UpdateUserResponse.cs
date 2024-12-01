@@ -3,7 +3,7 @@ using Ambev.DeveloperEvaluation.Domain.Entities;
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;
 
 
-public class UpdateUserResponse
+public record UpdateUserResponse
 {
     /// <summary>
     /// Gets or sets the unique identifier of the newly created user.

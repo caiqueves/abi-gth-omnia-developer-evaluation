@@ -1,6 +1,6 @@
 using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.Common;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.ListProductsCategory;

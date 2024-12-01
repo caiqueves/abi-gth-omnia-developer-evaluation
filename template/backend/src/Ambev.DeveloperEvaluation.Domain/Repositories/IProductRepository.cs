@@ -21,4 +21,6 @@ public interface IProductRepository
     Task<Product> UpdateAsync(Product user, CancellationToken cancellationToken = default);
 
     Task<Product?> GetByTitleAsync(string title, CancellationToken cancellationToken = default);
+
+    Task<Product> UpdateAmountAsync(Guid Id, int Amount, CancellationToken cancellationToken = default);
 }

@@ -30,31 +30,6 @@ public class DefaultContext : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-        modelBuilder.Entity<User>()
-            .HasOne(u => u.Address) // Um usuário tem um endereço
-            .WithMany() // O endereço pode ter muitos usuários (ajuste conforme sua lógica)
-            .HasForeignKey(u => u.AddressId)  // Definindo a chave estrangeira no lado do usuário
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<Address>()
-           .HasOne(a => a.Geolocation)
-           .WithOne()  // Se for um para um
-           .HasForeignKey<Address>(a => a.GeolocationId)
-           .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<VendaProduto>()
-            .HasKey(vp => new { vp.VendaId, vp.ProdutoId });
-
-        modelBuilder.Entity<VendaProduto>()
-            .HasOne(vp => vp.Venda)
-            .WithMany(v => v.VendaProdutos)
-            .HasForeignKey(vp => vp.VendaId);
-
-        modelBuilder.Entity<VendaProduto>()
-            .HasOne(vp => vp.Produto)
-            .WithMany(p => p.VendaProdutos)
-            .HasForeignKey(vp => vp.ProdutoId);
- 
         base.OnModelCreating(modelBuilder);
     }
 }

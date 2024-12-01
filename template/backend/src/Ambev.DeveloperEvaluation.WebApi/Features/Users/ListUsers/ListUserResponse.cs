@@ -7,7 +7,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.ListUser;
 /// <summary>
 /// API response model for GetUser operation
 /// </summary>
-public class ListUserResponse
+public record ListUserResponse
 {
     public List<User>? Data { get; set; }  // Lista de usuários
     public int TotalItems { get; set; }  // Total de itens no banco

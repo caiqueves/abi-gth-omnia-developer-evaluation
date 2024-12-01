@@ -15,15 +15,15 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
         {
             builder.ToTable("Address");
 
-            // Definindo a chave primária
+            
             builder.HasKey(a => a.Id);
 
-            // Definindo a coluna 'Id' como tipo UUID e gerando valor por padrão
+            
             builder.Property(a => a.Id)
                    .HasColumnType("uuid")
                    .HasDefaultValueSql("gen_random_uuid()");
 
-            // Definindo as propriedades (campos) da tabela 'Address'
+            
             builder.Property(a => a.Street)
                    .IsRequired()
                    .HasMaxLength(200);

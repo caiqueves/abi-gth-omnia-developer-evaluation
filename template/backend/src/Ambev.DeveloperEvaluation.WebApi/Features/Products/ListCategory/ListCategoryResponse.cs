@@ -2,7 +2,7 @@
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.ListCategory;
 
 
-public class ListCategoryResponse
+public record ListCategoryResponse
 {
     public List<string>? Category { get; set; }  
    

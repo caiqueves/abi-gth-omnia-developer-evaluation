@@ -131,12 +131,7 @@ public class ProductController : BaseController
         var command = _mapper.Map<ListProductCategoryCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponse
-        {
-            //Success = true,
-            //Message = "List Product Category successfully",
-            Data = new ListProductResponse { Data = response, TotalItems = response.TotalCount, CurrentPage = response.CurrentPage, TotalPages = response.TotalPages }
-        });
+        return Ok(new ListProductResponse { Data = response, TotalItems = response.TotalCount, CurrentPage = response.CurrentPage, TotalPages = response.TotalPages });
     }
 
     [Authorize]
@@ -183,7 +178,7 @@ public class ProductController : BaseController
         var command = _mapper.Map<UpdateProductCommand>(request);
         var response = await _mediator.Send(command, cancellationToken);
 
-        return Ok(response.Product);
+        return Ok(response);
     }
 
     [Authorize]
@@ -204,12 +199,8 @@ public class ProductController : BaseController
             return BadRequest(validationResult.Errors);
 
         var command = _mapper.Map<DeleteProductCommand>(request.Id);
-        await _mediator.Send(command, cancellationToken);
+        var result = await _mediator.Send(command, cancellationToken);
 
-        return Ok(new ApiResponse
-        {
-            //Success = true,
-            //Message = "Product deleted successfully"
-        });
+        return Ok(result);
     }
 }

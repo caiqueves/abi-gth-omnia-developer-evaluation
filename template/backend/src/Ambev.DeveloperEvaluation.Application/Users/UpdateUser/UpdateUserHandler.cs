@@ -101,12 +101,9 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
             await _userRepository.UpdateAsync(user, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             var createdUser = _userRepository.GetByIdAsync(user.Id, cancellationToken).Result;
-            // Salvar todas as alterações no banco de dados
-            
 
             _redisService.SetCache($"user:{user.Id}", JsonConvert.SerializeObject(createdUser));
 
-            //var result = 
             return _mapper.Map<UpdateUserResult>(createdUser); 
         }
         catch(Exception ex)

@@ -33,11 +33,5 @@ public class ProductValidator : AbstractValidator<Product>
         RuleFor(ads => ads.RatingId).NotEmpty()
            .WithMessage("RatingId cannot be None");
 
-        RuleFor(ads => ads.Amount).NotEmpty()
-           .WithMessage("Amount cannot be None");
-
-
-
-
     }
 }

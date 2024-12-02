@@ -3,6 +3,7 @@ using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Services;
 using AutoMapper;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
 
@@ -47,19 +48,22 @@ public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, Delete
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-            var product = await _productRepository.GetByIdAsync(request.Id, cancellationToken);
+        var product = await _productRepository.GetByIdAsync(request.Id, cancellationToken);
 
-            await _ratingRepository.DeleteAsync(product!.RatingId, cancellationToken);
-            var success = await _productRepository.DeleteAsync(request.Id, cancellationToken);
-          
-            if (!success)
-                throw new KeyNotFoundException($"Product with ID {request.Id} not found");
+        if(product is null)
+            throw new ApplicationException($"Product for Id {request.Id} not found");
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+        var success = await _productRepository.DeleteAsync(request.Id, cancellationToken);
+        await _ratingRepository.DeleteAsync(product!.RatingId, cancellationToken);
 
-            _redisService.RemoveCache(request.Id.ToString());
+        if (!success)
+            throw new KeyNotFoundException($"Product with ID {request.Id} not found");
 
-            return _mapper.Map<DeleteProductResult>(request);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        _redisService.RemoveCache("product:" + request.Id.ToString());
+
+        return _mapper.Map<DeleteProductResult>(product);
 
     }
 }

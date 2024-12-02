@@ -62,7 +62,7 @@ public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserRe
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        _redisService.RemoveCache(request.Id.ToString());
+        _redisService.RemoveCache("user:"+request.Id.ToString());
 
         return _mapper.Map<DeleteUserResult>(user);
     }

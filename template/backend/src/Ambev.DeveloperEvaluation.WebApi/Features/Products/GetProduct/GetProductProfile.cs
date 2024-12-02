@@ -15,7 +15,6 @@ public class GetProductProfile : Profile
     public GetProductProfile()
     {
         CreateMap<GetProductRequest, GetProductCommand>();
-        CreateMap<Guid, GetProductCommand>();
         CreateMap<Guid, Application.Products.GetProduct.GetProductCommand>()
             .ConstructUsing(id => new Application.Products.GetProduct.GetProductCommand(id));
 

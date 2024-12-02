@@ -15,7 +15,6 @@ public class UpdateProductProfile : Profile
     public UpdateProductProfile()
     {
         CreateMap<UpdateProductRequest, UpdateProductCommand>();
-        CreateMap<UpdateProductCommand, Product>();
         CreateMap<UpdateProductResult, UpdateProductCommand>();
     }
 }

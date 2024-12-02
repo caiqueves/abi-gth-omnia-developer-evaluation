@@ -37,7 +37,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Update
             throw new ValidationException(validationResult.Errors);
 
         var existingProduct = _productRepository.GetByIdAsync(Guid.Parse(command.Id), cancellationToken).Result;
-        if (existingProduct == null)
+        if (existingProduct is null)
             throw new ApplicationException($"Product for Id {command.Id} not found");
 
         existingProduct!.Rating!.Count = command.Count;

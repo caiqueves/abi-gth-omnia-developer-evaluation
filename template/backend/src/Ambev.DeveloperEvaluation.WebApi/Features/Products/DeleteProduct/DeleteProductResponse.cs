@@ -5,7 +5,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
 /// <summary>
 /// Response model for DeleteUser operation
 /// </summary>
-public class DeleteProductResponse
+public record DeleteProductResponse
 {
     public string Id { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;    // O nome do produto

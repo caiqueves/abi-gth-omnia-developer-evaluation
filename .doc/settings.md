@@ -21,23 +21,21 @@ sudo systemctl enable docker
 
 ## Para instalar o Docker Compose no Linux, use:
 
-```bash
+
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 
 ## 2. Verificar se o Docker está Instalado Corretamente abra o terminal e digite o comando abaixo:
 
-```bash
+
 docker --version
 
 Isso deve exibir a versão do Docker instalada. Você também pode verificar o status do Docker com:
 
-```bash
 docker info
 
 ## 3. Verificar se o Docker Compose está Instalado Corretamente:
 
-```bash
 docker-compose --version
 
 ## 4. Baixar ou Clonar o Repositório do Projeto
@@ -45,12 +43,10 @@ docker-compose --version
 Clone o repositório do projeto (se necessário) ou garanta que você tenha o diretório com o arquivo docker-compose.yml na sua máquina.
 Caso precise clonar o repositório, use o seguinte comando:
 
-```bash
 [git clone https://github.com/usuario/repo.git](https://github.com/caiqueves/abi-gth-omnia-developer-evaluation.git)
 
 Após clonar, acesse o diretório do projeto:
 
-```bash
 cd repo
 
 ## 5. Verificar o Arquivo docker-compose.yml
@@ -63,7 +59,6 @@ Este arquivo define todos os serviços que serão executados nos contêineres Do
 Agora você pode executar o Docker Compose para iniciar os contêineres definidos no arquivo docker-compose.yml.
 No terminal, no diretório onde o arquivo está localizado, execute:
 
-```bash
 docker-compose up -d
 
 O -d faz com que os contêineres sejam executados em segundo plano (modo detached).
@@ -72,7 +67,6 @@ Este comando irá baixar as imagens necessárias (se não estiverem no seu siste
 Para saber as portas que os contêineres estão executando podem abrir o docker mais os serviços foram configurados
 para as portas :
 
-```bash
 Postgrees - http://localhost:5432/
 Redis - http://localhost:6379/
 RabbitMQ - http://localhost:15672/#/

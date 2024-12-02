@@ -84,3 +84,8 @@ This section includes links to the detailed documentation for the different API 
 This section describes the overall structure and organization of the project files and directories. 
 
 See [Project Structure](/.doc/project-structure.md)
+
+## Project Settings
+This section for describes where settings o project for execution.
+
+See[Project Settings](/.doc/settings.md)

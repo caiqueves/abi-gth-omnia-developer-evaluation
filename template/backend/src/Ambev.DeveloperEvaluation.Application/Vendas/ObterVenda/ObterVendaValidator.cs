@@ -1,17 +1,17 @@
 ﻿using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.Application.Vendas.CancelarVenda;
+namespace Ambev.DeveloperEvaluation.Application.Vendas.ObterVenda;
 
 
-public class CancelarVendaValidator : AbstractValidator<CancelarVendaCommand>
+public class ObterVendaValidator : AbstractValidator<ObterVendaCommand>
 {
-    public CancelarVendaValidator()
+    public ObterVendaValidator()
     {
         RuleFor(x => x.Id)
             .NotEmpty().WithMessage("O ID da Venda não pode ser vazio.")
             .NotEqual(Guid.Empty).WithMessage("O ID da Venda não pode ser um GUID vazio.");
 
 
-       
+
     }
 }

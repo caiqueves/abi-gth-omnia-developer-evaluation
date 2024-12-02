@@ -4,7 +4,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Vendas.AtualizarVenda
 {
     public class AtualizarVendaRequest
     {
-        public Guid Id { get; set; }
         public Guid ClienteId { get; set; }  // ID do cliente
         //public Guid FilialId { get; set; }   // ID da filial
         public DateTime DataVenda { get; set; } // Data da venda

@@ -68,11 +68,7 @@ public class CreateProductHandler : IRequestHandler<CreateProductCommand, Create
             // Salvar todas as alterações no banco de dados
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var createdProductJson = JsonConvert.SerializeObject(createdProduct);
-
-            _redisService.SetCache($"product:{product.Id}", createdProductJson);
-
-            ////_eventService.PublishEvent($"User create with date {createdUserJson}");
+            _redisService.SetCache($"product:{product.Id}", JsonConvert.SerializeObject(command));
 
             var products = await _productRepository.GetByIdAsync(product.Id);
             var result = _mapper.Map<CreateProductResult>(products);

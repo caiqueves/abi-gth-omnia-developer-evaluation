@@ -115,7 +115,7 @@ public class CriarVendaCommandHandler : IRequestHandler<CriarVendaCommand,CriarV
             
             _eventService.PublishSaleCreatedEvent(saleCreatedEvent);
 
-            _redisService.SetCache($"sale: {venda.Id}", JsonConvert.SerializeObject(saleCreatedEvent));
+            _redisService.SetCache($"sale: {venda.Id}", JsonConvert.SerializeObject(request));
 
             return _mapper.Map<CriarVendaResult>(saleCreatedEvent);
         }

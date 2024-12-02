@@ -96,11 +96,7 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserRe
             // Salvar todas as alterações no banco de dados
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var createdUserJson = JsonConvert.SerializeObject(createdUser);
-
-            _redisService.SetCache($"user:{user.Id}", createdUserJson);
-
-            ////_eventService.PublishEvent($"User create with date {createdUserJson}");
+            _redisService.SetCache($"user:{user.Id}", JsonConvert.SerializeObject(command));
 
             var users = await _userRepository.GetByIdAsync(user.Id);
             var result = _mapper.Map<CreateUserResult>(users);

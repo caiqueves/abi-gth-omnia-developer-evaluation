@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Vendas.CancelarVenda;
+using Ambev.DeveloperEvaluation.Application.Vendas.ObterVenda;
 using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Vendas.DeleteSale

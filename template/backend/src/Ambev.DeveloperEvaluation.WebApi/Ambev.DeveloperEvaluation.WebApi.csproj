@@ -28,8 +28,6 @@
 
   <ItemGroup>
     <Folder Include="Features\Vendas\ListSale\" />
-    <Folder Include="Features\Vendas\GetSale\" />
-    <Folder Include="Features\Vendas\CancelSaleIItem\" />
     <Folder Include="Features\Users\GetUser\" />
     <Folder Include="Mappings\" />
     <Folder Include="Migrations\" />

@@ -37,6 +37,9 @@ public class CancelarVendaCommandHandler : IRequestHandler<CancelarVendaCommand,
             throw new KeyNotFoundException($"Not possible cancelled sale. Because not found sale for {request.Id}");
         }
 
+        if(venda.Cancelado == true)
+            throw new InvalidOperationException($"Not possible cancelled sale. Because in sale with status cancelada");
+
         venda.Cancelado = true;
         await _vendaRepository.AtualizarVendaAsync(request.Id,venda);
 

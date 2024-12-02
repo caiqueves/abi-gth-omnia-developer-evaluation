@@ -4,6 +4,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Vendas.DeleteSale
 {
     public class CancelarVendaRequest
     {
-        public Guid Id { get; set; }  
+        public Guid Id { get; set; }
+
+        public CancelarVendaRequest(Guid id)
+        {
+            Id = id;
+        }
     }
 }

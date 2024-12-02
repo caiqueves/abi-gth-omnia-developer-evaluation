@@ -60,7 +60,6 @@ public class UpdateUserCommand : IRequest<UpdateUserResult>
     /// </summary>
     public UserRole Role { get; set; }
 
-
     public ValidationResultDetail Validate()
     {
         var validator = new UpdateUserCommandValidator();

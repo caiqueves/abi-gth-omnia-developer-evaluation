@@ -78,12 +78,12 @@ WebApi - http://localhost:8080/
 
 ## 7. Como Configurar o Entity Framework Migrations
 
-# 1. Instalar as Dependências do Projeto
+### 1. Instalar as Dependências do Projeto
 Antes de tudo, o desenvolvedor precisa garantir que o projeto está com todas as dependências instaladas. Para isso, após clonar o repositório, o primeiro passo é restaurar os pacotes NuGet. No diretório do projeto, execute o comando:
 
 dotner restore
 
-# 2. Configurar a String de Conexão
+### 2. Configurar a String de Conexão
 
 {
   "ConnectionStrings": {
@@ -91,7 +91,7 @@ dotner restore
   }
 }
 
-# 3. Aplicar a Migração no Banco de Dados
+### 3. Aplicar a Migração no Banco de Dados
 
 dotnet ef database update
 

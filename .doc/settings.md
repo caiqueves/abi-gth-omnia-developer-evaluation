@@ -51,10 +51,7 @@ Caso precise clonar o repositório, use o seguinte comando:
 
 [git clone https://github.com/usuario/repo.git](https://github.com/caiqueves/abi-gth-omnia-developer-evaluation.git)
 
-
-Após clonar, acesse o diretório do projeto:
-
-cd repo
+Após clonar, acesse o diretório do projeto
 
 ## 5. Verificar o Arquivo docker-compose.yml
 

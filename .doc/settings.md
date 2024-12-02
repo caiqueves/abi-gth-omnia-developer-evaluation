@@ -18,36 +18,47 @@ sudo apt-get update
 sudo apt-get install docker.io
 sudo systemctl start docker
 sudo systemctl enable docker
+```bash
 
 ## Para instalar o Docker Compose no Linux, use:
 
-
+```bash
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
+```bash
 
 ## 2. Verificar se o Docker está Instalado Corretamente abra o terminal e digite o comando abaixo:
 
-
+```bash
 docker --version
+```bash
 
 Isso deve exibir a versão do Docker instalada. Você também pode verificar o status do Docker com:
 
+```bash
 docker info
+```bash
 
 ## 3. Verificar se o Docker Compose está Instalado Corretamente:
 
+```bash
 docker-compose --version
+```bash
 
 ## 4. Baixar ou Clonar o Repositório do Projeto
 
 Clone o repositório do projeto (se necessário) ou garanta que você tenha o diretório com o arquivo docker-compose.yml na sua máquina.
 Caso precise clonar o repositório, use o seguinte comando:
 
+```bash
 [git clone https://github.com/usuario/repo.git](https://github.com/caiqueves/abi-gth-omnia-developer-evaluation.git)
+```bash
 
 Após clonar, acesse o diretório do projeto:
 
+```bash
 cd repo
+```bash
 
 ## 5. Verificar o Arquivo docker-compose.yml
 
@@ -59,7 +70,9 @@ Este arquivo define todos os serviços que serão executados nos contêineres Do
 Agora você pode executar o Docker Compose para iniciar os contêineres definidos no arquivo docker-compose.yml.
 No terminal, no diretório onde o arquivo está localizado, execute:
 
+```bash
 docker-compose up -d
+```bash
 
 O -d faz com que os contêineres sejam executados em segundo plano (modo detached).
 Este comando irá baixar as imagens necessárias (se não estiverem no seu sistema) e iniciar os contêineres.

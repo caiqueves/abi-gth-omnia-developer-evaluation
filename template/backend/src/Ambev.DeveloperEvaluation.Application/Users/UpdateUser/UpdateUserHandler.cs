@@ -57,23 +57,26 @@ public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserRe
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var existingUser = await _userRepository.GetByEmailAsync(command.Email, cancellationToken);
+            var existingUser = _userRepository.GetByIdAsync(command.Id, cancellationToken).Result;
 
-            if (existingUser != null && existingUser.Id.CompareTo(command.Id) == 0)
+            if (existingUser is null)
+                throw new InvalidOperationException($"User for {command.Id} not found");
+
+            var existingUserEmail = _userRepository.GetByEmailAsync(command.Email, cancellationToken).Result;
+
+            if (existingUserEmail != null && existingUserEmail.Id != command.Id)
                 //if (existingUser != null)
-                throw new ApplicationException($"User with email {command.Email} already exists");
+                throw new InvalidOperationException($"User with email {command.Email} already exists");
 
-            // Criação da Geolocalização
             var geolocation = new Geolocation
             {
-                Id = Guid.NewGuid(),
+                Id = existingUser.Address.GeolocationId,
                 Lat = Convert.ToDecimal(command.Latitude),
                 Long = Convert.ToDecimal(command.Longitude)
             };
 
             await _geolocationRepository.UpdateAsync(geolocation);
 
-            // Criação do Endereço
             var address = new Address
             {
                 City = command.City,

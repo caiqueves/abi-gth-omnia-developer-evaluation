@@ -16,7 +16,7 @@ namespace Ambev.DeveloperEvaluation.Infrastructure.RabbitMQ
             
         }
 
-        public void PublishEvent(string eventMessage)
+        public void PublishEvent(string eventMessage, string queueName)
         {
 
             var factory = new ConnectionFactory() { 
@@ -30,7 +30,7 @@ namespace Ambev.DeveloperEvaluation.Infrastructure.RabbitMQ
             using (var channel = connection.CreateModel())
             {
 
-                channel.QueueDeclare(queue: _queueName,
+                channel.QueueDeclare(queue: _queueName+"_"+queueName,
                                      durable: false,
                                      exclusive: false,
                                      autoDelete: false,
@@ -40,12 +40,14 @@ namespace Ambev.DeveloperEvaluation.Infrastructure.RabbitMQ
 
 
                 channel.BasicPublish(exchange: "",
-                                     routingKey: _queueName,
+                                     routingKey: _queueName + "_" + queueName,
                                      basicProperties: null,
                                      body: body);
 
-                Console.WriteLine($"Evento enviado: {eventMessage}");
+                Console.WriteLine($"{eventMessage}");
             }
         }
+
+
     }
 }

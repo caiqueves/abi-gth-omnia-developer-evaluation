@@ -31,10 +31,10 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
                 .HasMaxLength(255);
 
             
-            builder.HasMany(f => f.Vendas)  // Uma Filial tem muitas Vendas
-                .WithOne()  // Cada Venda está associada a uma Filial
-                .HasForeignKey(v => v.FilialId)  // A chave estrangeira é FilialId em Venda
-                .OnDelete(DeleteBehavior.Cascade);  // Quando uma Filial for excluída, as Vendas também serão excluídas
+            //builder.HasMany(f => f.Vendas) 
+            //    .WithOne()  
+            //    .HasForeignKey(v => v.FilialId) 
+            //    .OnDelete(DeleteBehavior.Cascade); 
         }
     }
 

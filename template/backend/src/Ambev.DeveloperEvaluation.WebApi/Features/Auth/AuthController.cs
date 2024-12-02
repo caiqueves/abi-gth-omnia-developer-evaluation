@@ -5,7 +5,6 @@ using Ambev.DeveloperEvaluation.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Auth.AuthenticateUserFeature;
 using Ambev.DeveloperEvaluation.Application.Auth.AuthenticateUser;
 using Microsoft.AspNetCore.Authorization;
-using Ambev.DeveloperEvaluation.Common;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Auth;
 

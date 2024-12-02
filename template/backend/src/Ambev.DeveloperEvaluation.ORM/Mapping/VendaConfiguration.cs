@@ -9,18 +9,18 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
     {
         public void Configure(EntityTypeBuilder<Venda> builder)
         {
-            // Definindo o nome da tabela no banco de dados
+
             builder.ToTable("Vendas");
 
-            // Definindo a chave primária
+            
             builder.HasKey(v => v.Id);
 
-            // Definindo o tipo e a geração do Id (GUID)
+            
             builder.Property(v => v.Id)
                 .HasColumnType("uuid")
                 .HasDefaultValueSql("gen_random_uuid()");
 
-            // Definindo as propriedades
+            
             builder.Property(v => v.DataVenda)
                 .IsRequired();
 
@@ -30,23 +30,23 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
             builder.Property(v => v.Cancelado)
                 .IsRequired();
 
-            // Relacionamento com a tabela de Cliente (User)
-            builder.HasOne(v => v.Cliente)  // Uma venda tem um cliente (usuario)
-                .WithMany()  // Um cliente pode ter muitas vendas
-                .HasForeignKey(v => v.ClienteId)  // Chave estrangeira para o cliente
-                .OnDelete(DeleteBehavior.Restrict);  // Restrict para não excluir o cliente
+            
+            builder.HasOne(v => v.Cliente)  
+                .WithMany()  
+                .HasForeignKey(v => v.ClienteId)  
+                .OnDelete(DeleteBehavior.Restrict);  
 
-            // Relacionamento com a tabela de Filial
-            builder.HasOne(v => v.Filial)  // Uma venda tem uma filial
-                .WithMany()  // Uma filial pode ter muitas vendas
-                .HasForeignKey(v => v.FilialId)  // Chave estrangeira para a filial
-                .OnDelete(DeleteBehavior.Restrict);  // Restrict para não excluir a filial
+            
+            //builder.HasOne(v => v.Filial)  
+            //    .WithMany()  
+            //    .HasForeignKey(v => v.FilialId) 
+            //    .OnDelete(DeleteBehavior.Restrict);  
 
-            // Relacionamento com a tabela de VendaProduto (muitos para muitos)
-            builder.HasMany(v => v.VendaProdutos)  // Uma venda pode ter muitos produtos
-                .WithOne()  // Um produto pode estar em muitas vendas (assumindo um relacionamento muitos-para-muitos)
-                .HasForeignKey(vp => vp.VendaId)  // Chave estrangeira para a venda
-                .OnDelete(DeleteBehavior.Cascade);  // Quando uma venda for excluída, os produtos associados também serão excluídos
+            
+            builder.HasMany(v => v.VendaProdutos) 
+                .WithOne()  
+                .HasForeignKey(vp => vp.VendaId)  
+                .OnDelete(DeleteBehavior.Cascade);  
         }
     }
 

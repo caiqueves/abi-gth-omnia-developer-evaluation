@@ -3,7 +3,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Services
 {
     public interface IEventPublisher
     {
-        void PublishEvent(string eventMessage);
+        void PublishEvent(string eventMessage, string queueName);
     }
 }
 

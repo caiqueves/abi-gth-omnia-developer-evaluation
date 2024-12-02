@@ -123,7 +123,7 @@ public class ProductRepository : IProductRepository
 
         try
         {
-            // _context.SaveChangesAsync(cancellationToken);
+            _context.SaveChangesAsync(cancellationToken);
             return existingProduct;
         }
         catch (Exception)

@@ -76,6 +76,27 @@ Redis - http://localhost:6379/
 RabbitMQ - http://localhost:15672/#/
 WebApi - http://localhost:8080/
 
+## 7. Como Configurar o Entity Framework Migrations
+
+# 1. Instalar as Dependências do Projeto
+Antes de tudo, o desenvolvedor precisa garantir que o projeto está com todas as dependências instaladas. Para isso, após clonar o repositório, o primeiro passo é restaurar os pacotes NuGet. No diretório do projeto, execute o comando:
+
+dotner restore
+
+# 2. Configurar a String de Conexão
+
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=MeuBanco;User Id=usuario;Password=senha;"
+  }
+}
+
+# 3. Aplicar a Migração no Banco de Dados
+
+dotnet ef database update
+
+
+
 
 Caique Neves - Desenvolvedor
 

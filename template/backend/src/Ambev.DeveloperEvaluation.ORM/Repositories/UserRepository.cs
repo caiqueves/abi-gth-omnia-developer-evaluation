@@ -72,4 +72,49 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync(cancellationToken);
         return true;
     }
+
+    /// <summary>
+    /// Retrieves all users from the database
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>List of all users</returns>
+    public async Task<IQueryable<User>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return _context.Users.AsQueryable();
+    }
+
+
+    public async Task<User> UpdateUserAsync(User updatedUser)
+    {
+        var existingUser = await _context.Users
+            .Include(u => u.Address) // Inclui endereço caso vá atualizar também
+            .FirstOrDefaultAsync(u => u.Id == updatedUser.Id);
+
+        if (existingUser == null)
+        {
+            throw new KeyNotFoundException($"Usuário com ID {updatedUser.Id} não encontrado.");
+        }
+
+        // Atualiza apenas os campos necessários
+        existingUser.Username = updatedUser.Username;
+        existingUser.FirstName = updatedUser.FirstName;
+        existingUser.LastName = updatedUser.LastName;
+        existingUser.Email = updatedUser.Email;
+        existingUser.Phone = updatedUser.Phone;
+        existingUser.Role = updatedUser.Role;
+        existingUser.Status = updatedUser.Status;
+        existingUser.AddressId = updatedUser.AddressId;
+        existingUser.UpdateAt = DateTime.UtcNow;
+
+        // Se precisar atualizar senha (exemplo: só se não for nula ou vazia)
+        if (!string.IsNullOrWhiteSpace(updatedUser.Password))
+        {
+            existingUser.Password = updatedUser.Password;
+        }
+
+        _context.Users.Update(existingUser);
+        await _context.SaveChangesAsync();
+
+        return existingUser;
+    }
 }

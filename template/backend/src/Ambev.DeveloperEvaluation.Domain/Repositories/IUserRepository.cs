@@ -38,4 +38,26 @@ public interface IUserRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>True if the user was deleted, false if not found</returns>
     Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves all users from the data source asynchronously.
+    /// </summary>
+    /// <param name="cancellationToken">
+    /// A token to monitor for cancellation requests.
+    /// </param>
+    /// <returns>
+    /// A task representing the asynchronous operation. The task result contains the list of <see cref="User"/>.
+    /// </returns>
+    Task<IQueryable<User>> GetAllAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Updates the information of an existing user in the data source.
+    /// </summary>
+    /// <param name="updatedUser">
+    /// The <see cref="User"/> entity containing the updated values.
+    /// </param>
+    /// <returns>
+    /// A task representing the asynchronous operation. The task result contains the updated <see cref="User"/>.
+    /// </returns>
+    Task<User> UpdateUserAsync(User updatedUser);
 }

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Ambev.DeveloperEvaluation.Redis": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

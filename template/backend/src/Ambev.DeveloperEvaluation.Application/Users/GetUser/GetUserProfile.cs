@@ -13,6 +13,8 @@ public class GetUserProfile : Profile
     /// </summary>
     public GetUserProfile()
     {
+
+        CreateMap<GetUserCommand, User>();
         CreateMap<User, GetUserResult>();
     }
 }

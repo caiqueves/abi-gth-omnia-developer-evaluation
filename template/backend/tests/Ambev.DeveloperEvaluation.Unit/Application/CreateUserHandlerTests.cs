@@ -18,6 +18,9 @@ public class CreateUserHandlerTests
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
     private readonly IPasswordHasher _passwordHasher;
+    private readonly IAdressRepository _adressRepository;
+    private readonly IGeolocationRepository _geolocationRepository;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly CreateUserHandler _handler;
 
     /// <summary>
@@ -29,7 +32,10 @@ public class CreateUserHandlerTests
         _userRepository = Substitute.For<IUserRepository>();
         _mapper = Substitute.For<IMapper>();
         _passwordHasher = Substitute.For<IPasswordHasher>();
-        _handler = new CreateUserHandler(_userRepository, _mapper, _passwordHasher);
+        _adressRepository = Substitute.For<IAdressRepository>();
+        _geolocationRepository = Substitute.For<IGeolocationRepository>();
+        _unitOfWork = Substitute.For<IUnitOfWork>();
+        _handler = new CreateUserHandler(_userRepository, _mapper, _passwordHasher, _adressRepository, _geolocationRepository, _unitOfWork);
     }
 
     /// <summary>

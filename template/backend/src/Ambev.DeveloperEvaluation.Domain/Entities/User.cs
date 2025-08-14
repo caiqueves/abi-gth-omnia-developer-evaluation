@@ -29,7 +29,7 @@ public class User : BaseEntity, IUser
     /// Gets the user's phone number.
     /// Must be a valid phone number format following the pattern (XX) XXXXX-XXXX.
     /// </summary>
-    public string Phone { get; set; } = string.Empty ;
+    public string Phone { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets the hashed password for authentication.
@@ -38,11 +38,23 @@ public class User : BaseEntity, IUser
     /// </summary>
     public string Password { get; set; } = string.Empty;
 
+    public string FirstName { get; set; } = string.Empty;
+
+    public string LastName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Return Address for user
+    /// </summary>
+    public Guid AddressId { get; set; }
+
+    public virtual Address Address { get; set; }
+
     /// <summary>
     /// Gets the user's role in the system.
     /// Determines the user's permissions and access levels.
     /// </summary>
-    public UserRole Role { get;     set; }
+    /// 
+    public UserRole Role { get; set; }
 
     /// <summary>
     /// Gets the user's current status.
@@ -53,12 +65,12 @@ public class User : BaseEntity, IUser
     /// <summary>
     /// Gets the date and time when the user was created.
     /// </summary>
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreateAt { get; set; }
 
     /// <summary>
     /// Gets the date and time of the last update to the user's information.
     /// </summary>
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdateAt { get; set; }
 
     /// <summary>
     /// Gets the unique identifier of the user.
@@ -81,10 +93,7 @@ public class User : BaseEntity, IUser
     /// <summary>
     /// Initializes a new instance of the User class.
     /// </summary>
-    public User()
-    {
-        CreatedAt = DateTime.UtcNow;
-    }
+    public User() => CreateAt = DateTime.UtcNow;
 
     /// <summary>
     /// Performs validation of the user entity using the UserValidator rules.
@@ -121,7 +130,7 @@ public class User : BaseEntity, IUser
     public void Activate()
     {
         Status = UserStatus.Active;
-        UpdatedAt = DateTime.UtcNow;
+        UpdateAt = DateTime.UtcNow;
     }
 
     /// <summary>
@@ -131,7 +140,7 @@ public class User : BaseEntity, IUser
     public void Deactivate()
     {
         Status = UserStatus.Inactive;
-        UpdatedAt = DateTime.UtcNow;
+        UpdateAt = DateTime.UtcNow;
     }
 
     /// <summary>
@@ -141,6 +150,6 @@ public class User : BaseEntity, IUser
     public void Suspend()
     {
         Status = UserStatus.Suspended;
-        UpdatedAt = DateTime.UtcNow;
+        UpdateAt = DateTime.UtcNow;
     }
 }

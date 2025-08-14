@@ -47,24 +47,22 @@ public class GetUserHandler : IRequestHandler<GetUserCommand, GetUserResult>
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var userJson = _redisService.GetCache($"user:{request.Id}");
+        //var userJson = _redisService.GetCache($"user:{request.Id}");
 
-        if (userJson != null)
-        {
-            // Se o usuário existe no Redis, deserializa e retorna o objeto
-            user = JsonConvert.DeserializeObject<User>(userJson);
-        }
-        else
-        {
+        //if (userJson != null)
+        //{
+        //    // Se o usuário existe no Redis, deserializa e retorna o objeto
+        //    user = JsonConvert.DeserializeObject<User>(userJson);
+        //}
+        //else
+        //{
             user = await _userRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if (user == null)
                 throw new KeyNotFoundException($"User with ID {request.Id} not found");
 
-            _redisService.SetCache($"user:{user!.Id}", JsonConvert.SerializeObject(user));
-        }
-
-        
+            //_redisService.SetCache($"user:{user!.Id}", JsonConvert.SerializeObject(user));
+        //}
 
         return _mapper.Map<GetUserResult>(user);
     }

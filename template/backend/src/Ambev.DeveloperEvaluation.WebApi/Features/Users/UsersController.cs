@@ -12,6 +12,8 @@ using Ambev.DeveloperEvaluation.Application.Users.ListUser;
 using Ambev.DeveloperEvaluation.WebApi.Features.Users.UpdateUser;
 using Ambev.DeveloperEvaluation.Application.Users.UpdateUser;
 using Ambev.DeveloperEvaluation.Common;
+using Microsoft.AspNetCore.Authorization;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users;
@@ -125,7 +127,7 @@ public class UsersController : BaseController
     }
 
 
-    //[Authorize]
+    [Authorize]
     ////[Authorize(Roles = "Customer")]
     ////[Authorize(Roles = "Manager")]
     ////[Authorize(Roles = "Admin")]
@@ -154,7 +156,7 @@ public class UsersController : BaseController
         });
     }
 
-    //[Authorize]
+    [Authorize]
     ////[Authorize(Roles = "Manager")]
     ////[Authorize(Roles = "Admin")]
     [HttpGet]
@@ -162,7 +164,7 @@ public class UsersController : BaseController
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> ListUser(
-      [FromQuery] int Page, [FromQuery] int Size, [FromQuery] string Order,
+      [FromQuery] int Page, [FromQuery] int Size, [FromQuery] OrderDirection Order,
        CancellationToken cancellationToken)
     {
         var request = new ListUserRequest(Page, Size, Order);

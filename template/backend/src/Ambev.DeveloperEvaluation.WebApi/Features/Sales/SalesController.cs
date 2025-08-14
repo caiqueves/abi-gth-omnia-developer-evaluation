@@ -28,7 +28,7 @@ public class SalesController : BaseController
         _mapper = mapper;
     }
 
-    //[Authorize]
+    [Authorize]
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponseWithData<CreateSaleResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -52,7 +52,7 @@ public class SalesController : BaseController
 
     }
 
-    //[Authorize]
+    [Authorize]
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResponseWithData<GetSaleResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -77,7 +77,7 @@ public class SalesController : BaseController
         });
     }
 
-    //[Authorize]
+    [Authorize]
     [HttpPut("{id}")]
     [ProducesResponseType(typeof(ApiResponseWithData<UpdateSaleResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -101,7 +101,7 @@ public class SalesController : BaseController
         });
     }
 
-    //[Authorize]
+    [Authorize]
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(ApiResponseWithData<CancelSaleResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]

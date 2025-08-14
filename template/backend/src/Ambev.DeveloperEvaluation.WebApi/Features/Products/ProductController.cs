@@ -33,7 +33,7 @@ public class ProductController : BaseController
         _mapper = mapper;
     }
 
-    //[Authorize]
+    [Authorize]
     [HttpPost]
     [ProducesResponseType(typeof(ApiResponseWithData<CreateProductResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -56,7 +56,7 @@ public class ProductController : BaseController
         });
     }
 
-    //[Authorize]
+    [Authorize]
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(ApiResponseWithData<GetProductResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -81,9 +81,9 @@ public class ProductController : BaseController
         });
     }
 
-    //[Authorize]
-    ////[Authorize(Roles = "Manager")]
-    ////[Authorize(Roles = "Admin")]
+    [Authorize]
+    //[Authorize(Roles = "Manager")]
+    //[Authorize(Roles = "Admin")]
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
@@ -110,7 +110,7 @@ public class ProductController : BaseController
         });
     }
 
-    //[Authorize]
+    [Authorize]
     ////[Authorize(Roles = "Manager")]
     ////[Authorize(Roles = "Admin")]
     [HttpGet("category/{category}")]
@@ -134,7 +134,7 @@ public class ProductController : BaseController
         return Ok(new ListProductResponse { Data = response, TotalItems = response.TotalCount, CurrentPage = response.CurrentPage, TotalPages = response.TotalPages });
     }
 
-    //[Authorize]
+    [Authorize]
     ////[Authorize(Roles = "Manager")]
     ////[Authorize(Roles = "Admin")]
     [HttpGet("category")]
@@ -157,7 +157,7 @@ public class ProductController : BaseController
         return Ok(response.ToList());
     }
 
-    //[Authorize]
+    [Authorize]
     ////[Authorize(Roles = "Customer")]
     ////[Authorize(Roles = "Manager")]
     ////[Authorize(Roles = "Admin")]
@@ -181,7 +181,7 @@ public class ProductController : BaseController
         return Ok(response);
     }
 
-    //[Authorize]
+    [Authorize]
     ////[Authorize(Roles = "Customer")]
     ////[Authorize(Roles = "Manager")]
     ////[Authorize(Roles = "Admin")]

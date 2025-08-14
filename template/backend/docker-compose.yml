@@ -9,6 +9,15 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
+      
+       # RabbitMQ
+      - RabbitMq__RabbitMqConnection=localhost:5672
+      - RabbitMq__RabbitMqUser=developer
+      - RabbitMq__RabbitMqPass=eveluAt10n
+
+      # Redis
+      - Redis__RedisConnection=localhost:6379
+      - Redis__RedisPass=ev@luAt10n
     ports:
       - "8080"
       - "8081"

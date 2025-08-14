@@ -1,3 +1,5 @@
+using Ambev.DeveloperEvaluation.Domain.Enums;
+
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Users.ListUsers;
 
 /// <summary>
@@ -15,9 +17,9 @@ public class ListUserRequest
     /// <summary>
     /// Order type asc / desc
     /// </summary>
-    public string Order { get; set; } = "ResumeAt";
+    public OrderDirection Order { get; set; }
 
-    public ListUserRequest(int page, int size, string order)
+    public ListUserRequest(int page, int size, OrderDirection order)
     {
         Page = page;
         Size = size;
